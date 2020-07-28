@@ -1,0 +1,13 @@
+/* Typography */
+$nunito: 'Nunito', sans-serif;
+$bodytext: 12.5px;
+
+/* Color */
+
+$paleWhite: #c7cbc9;
+$nearlyWhite: lighten($paleWhite, 85%);
+$black: #000000;
+$warmGray: #4d4a4b;
+$ninetyBlack: lighten($black, 10%);
+$fiftyBlack: lighten($black, 50%);
+$thirtyBlack: lighten($black, 70%);

@@ -1,0 +1,59 @@
+{
+  "name": "scratch-project",
+  "version": "1.0.0",
+  "description": "Community Trade",
+  "main": "webpack.config.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production nodemon server/server.js",
+    "build": "cross-env NODE_ENV=production webpack",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open & nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnmadrigal/scratch-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.5.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jquery": "^3.5.1",
+    "mongoose": "^5.9.25",
+    "pg": "^8.3.0",
+    "popper.js": "^1.16.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
+    "autoprefixer": "^9.8.5",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "cross-env": "^7.0.2",
+    "css-loader": "^3.6.0",
+    "node-sass": "^4.14.1",
+    "nodemon": "^2.0.4",
+    "postcss-loader": "^3.0.0",
+    "precss": "^4.0.0",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.2",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "bugs": {
+    "url": "https://github.com/johnmadrigal/scratch-project/issues"
+  },
+  "homepage": "https://github.com/johnmadrigal/scratch-project#readme"
+}

@@ -1,0 +1,157 @@
+body {
+  font-family: $nunito;
+  font-size: $bodytext;
+  line-height: 1.4em;
+}
+
+h5 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+h6 {
+  vertical-align: middle;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+/* items grid container */
+.itemsContainer {
+  padding: 3rem;
+  display: grid;
+  grid-template-columns: 20fr 20fr 20fr 20fr 20fr; /*can add a media query for smaller screens/responsivity*/
+  /* min-width: 950px; */
+}
+/* card container: which includes everything within a card */
+.card {
+  margin: 10px;
+}
+
+/* invidivual section within a card */
+
+/* user profile container */
+.userProfile {
+  position: relative;
+  margin-top: 30px;
+  margin-left: 60px;
+}
+
+.addItemBtn {
+  background-color: aliceblue;
+  color: gray;
+  border: none;
+  box-shadow: 1px 1px 3px rgba(22, 22, 22, 0.171);
+}
+.addItemBtn:hover {
+  background-color: lightgoldenrodyellow;
+  border: none;
+  color: gray;
+}
+
+.editItemBtn {
+  margin-bottom: 20px;
+  margin-left: 20px;
+  background-color: #f0f1fa;
+  color: gray;
+  border: none;
+  box-shadow: 1px 1px 3px rgba(22, 22, 22, 0.171);
+}
+.editItemBtn:hover {
+  background-color: lightgoldenrodyellow;
+  border: none;
+  color: gray;
+}
+/* Div rendered by App (sets background color for whole app) */
+.backgroundColor {
+  height: 100vh;
+}
+/* .modal-content { ***need to change modal width!
+  width: 800px;
+} */
+
+#filterBox {
+  margin-left: 20px;
+}
+
+#filterBox select {
+  font-size: $bodytext
+}
+
+.navbar-light {
+  box-shadow: inset 0px 0px 20px 10px rgba(156, 156, 156, 0.178);
+}
+
+.innerNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px 55px 0 55px;
+}
+
+.leftNav {
+  display: flex;
+  align-items: center;
+}
+.appButton {
+  background-color: aliceblue;
+  color: gray;
+  border: none;
+  box-shadow: 1px 1px 3px rgba(22, 22, 22, 0.171);
+}
+.appButton:hover {
+  background-color: lightgoldenrodyellow;
+  border: none;
+  color: gray;
+}
+.loginAndSignUp input, select {
+  border: 1px solid lightgray;
+  box-shadow: 1px 2px 2px rgba(11, 11, 22, 0.171);
+  border: none;
+  padding: 20px;
+  border-radius: 8px;
+}
+.loginAndSignUpBtn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background-color: aliceblue;
+  color: gray;
+  border: 1px solid lightgray;
+  border-radius: 15px;
+  box-shadow: 1px 1px 5px rgba(22, 22, 22, 0.171);
+
+}
+
+.loginAndSignUpBtn:hover {
+  background-color: lightgoldenrodyellow;
+  border: none;
+  color: gray;
+}
+.loginAndSignUp h3 {
+  color: $warmGray;
+  font-size: 2.5rem;
+  letter-spacing: 4px;
+}
+
+.msgContainer {
+  box-shadow: 1px 1px 25px rgba(22, 22, 22, 0.171);
+     
+}
+
+
+
+/* ----------------Media Queries------------------ */
+/* TODO: */
+/* -add media query for smallest screen size */
+
+@media (max-width: 1550px) {
+  .itemsContainer {
+    grid-template-columns: 25fr 25fr 25fr 25fr; /*can add a media query for smaller screens/responsivity*/
+  }
+}
+@media (max-width: 1150px) {
+  .itemsContainer {
+    grid-template-columns: 33fr 33fr 33fr; /*can add a media query for smaller screens/responsivity*/
+  }
+}
