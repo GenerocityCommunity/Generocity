@@ -51,8 +51,6 @@ class Profile extends Component {
       });
   }
 
-
-
   /*--- POST request to edit item to server---- */
   // handleSubmit(e) {
   //   e.preventDefault();
@@ -93,10 +91,9 @@ class Profile extends Component {
 
 
   render() {
+    const { latitude, longitude, firstName, lastName, email } = this.props.info;
     const { userItems } = this.state;
     const cards = userItems.map((item) => {
-      //console.log('item', item);
-      //if card === user card id
       return (
         <>
           <section className="card">
@@ -135,8 +132,8 @@ class Profile extends Component {
     });
 
     // Dynamic URL  (string interpolation) for google maps (static) api link 
-    let mapSrc = `https://maps.googleapis.com/maps/api/staticmap?center=${this.props.latitude}, ${this.props.longitude}&zoom=13&size=600x300&maptype=roadmap
-    &markers=color:red%7C${this.props.latitude}, ${this.props.longitude}
+    let mapSrc = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude}, ${longitude}&zoom=13&size=600x300&maptype=roadmap
+    &markers=color:red%7C${latitude}, ${longitude}
     &key=${process.env.GOOGLE_API_KEY}`
 
     return (
@@ -195,23 +192,23 @@ class Profile extends Component {
         </div >
 
         <section className="userProfile">
-          <h4>Welcome to Your Profile, {this.props.firstName}!</h4>
+          <h4>Welcome to Your Profile, {firstName}!</h4>
           <p>
-            Name: {this.props.firstName} {this.props.lastName}
+            Name: {firstName} {lastName}
             <br />
-      User Email: {this.props.email}
+            User Email: {email}
           </p>
           {/* if latitude and longitude do not exist in props, then render nothing
       if it does exist, then render map from Google API */}
           {
-            this.props.latitude && this.props.longitude ?
+            latitude && longitude ?
               <img src={mapSrc} alt='' /> : null
           }
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
           <h5>Your listed items:</h5>
         </section>
         <section className="itemsContainer">

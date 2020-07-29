@@ -362,7 +362,6 @@ class App extends Component {
               <Home
                 {...props}
                 allItems={this.state.allItems}
-                info={this.state}
                 handleSubmit={this.handleSubmit}
                 handleFileChange={this.handleFileChange}
                 handleChange={this.handleChange}
@@ -408,6 +407,7 @@ class App extends Component {
               <Profile
                 {...props}
                 allItems={this.state.allItems}
+                info={this.state}
                 user_id={this.state.user_id}
                 email={this.state.email}
                 firstName={this.state.firstName}
