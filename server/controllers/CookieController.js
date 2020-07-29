@@ -2,19 +2,44 @@ const db = require('../models/Models');
 
 const CookieController = {};
 
-// getUserByEmail
-
 CookieController.setSSIDCookie = async (req, res, next) => {
-  const { email, password } = req.body;
-  try {
-    const findUser = `SELECT _id, email, password FROM users WHERE (email = '${email}');`;
-    const user = await db.query(findUser);
-    // console.log('user.rows', user.rows);
+  const { email } = req.body;
 
-    if (user) {
-      res.cookie('ssid', user.rows[0]._id, { httpOnly: true });
-      res.locals.ssid = user.rows[0]._id;
-      // console.log('res.locals', res.locals);
+  try {
+    /*
+     * READ FROM USERS TABLE
+     *
+     * Note: Given that `setSSIDCookie` only gets invoked _after_ we've created or verified a user,
+     *       we can safely assume that there exists a user in Users table with the given email
+     *       in our request body
+     *
+     * 1. Construct a SELECT query for the unique user in Users table based on given email address
+     * 2. Safely interpolate user input into query string
+     * 3. Pause execution of setSSIDCookie to `await` for `query`'s returned promise to resolve
+     * 4. Once resolved, store data from query promise (an array of at most 1 object) into `user`
+     */
+    const findUser = `SELECT _id, email, password
+                      FROM users
+                      WHERE (email = $1);`;
+    const queryParams = [email];
+
+    const userData = await db.query(findUser, queryParams);
+
+    /*
+     * SET COOKIE WITH A SESSION ID FOR THIS USER
+     *
+     * 1. Check that User table data retrieval was successful
+     *    (if DB error, invoke global middleware)
+     * 2. Tell client/browser to set user's cookie for this domain with key value pair:
+     *    `ssid: <user row ID>`
+     * 3. Pass the value we set our user's cookie property, `ssid` to next middleware
+     */
+    if (userData) {
+      // NOTE: Since we filtered by `email` (a UNIQUE column) in our SELECT query, we only expect
+      //       1 object in the `rows` array of our `userData` object returned by that query
+      const user = userData.rows[0];
+      res.cookie('ssid', user._id, { httpOnly: true });
+      res.locals.ssid = user._id;
       return next();
     }
   } catch (e) {
