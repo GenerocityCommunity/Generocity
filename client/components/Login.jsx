@@ -10,25 +10,52 @@ class Login extends Component {
   render() {
     return (
       <div className="loginWrapper container loginAndSignUp">
-        <div class="row" style={{ height: '15vh' }}></div>
-        <div class="col" style={{ maxWidth: '90%' }}>
-          <h3 style={{ textAlign: 'center', margin: '30px', color: '$warmGray' }}>connect</h3>
+        <div className="row" style={{ height: '15vh' }}></div>
+        <div className="col" style={{ maxWidth: '90%' }}>
+          <h3
+            style={{ textAlign: 'center', margin: '30px', color: '$warmGray' }}
+          >
+            connect
+          </h3>
           <form>
-            <div class="form-group loginAndSignUp">
+            <div className="form-group loginAndSignUp">
               <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="hi@theneighborhood.com" name="userEmail" onChange={(e) => this.props.handleChange(e)}></input>
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+              <input
+                type="email"
+                className="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="hi@theneighborhood.com"
+                name="userEmail"
+                onChange={(e) => this.props.handleChange(e)}
+              ></input>
+              <small id="emailHelp" className="form-text text-muted">
+                We'll never share your email with anyone else.
+              </small>
             </div>
-            <div class="form-group loginAndSignUp">
+            <div className="form-group loginAndSignUp">
               <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password" onChange={(e) => this.props.handleChange(e)}></input>
+              <input
+                type="password"
+                className="form-control"
+                id="exampleInputPassword1"
+                placeholder="Password"
+                name="password"
+                onChange={(e) => this.props.handleChange(e)}
+              ></input>
             </div>
-            <button type="submit" class="btn btn-primary loginAndSignUpBtn" onClick={(e) => this.props.handleLoginSubmit(e)}>Get connected!</button>
+            <button
+              type="submit"
+              className="btn btn-primary loginAndSignUpBtn"
+              onClick={(e) => this.props.handleLoginSubmit(e)}
+            >
+              Get connected!
+            </button>
           </form>
         </div>
-        <div class="row" style={{ height: '20vh' }}></div>
+        <div className="row" style={{ height: '20vh' }}></div>
       </div>
-    )
+    );
   }
 }
 export default Login;

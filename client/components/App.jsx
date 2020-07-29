@@ -70,7 +70,9 @@ class App extends Component {
     e.preventDefault();
     const categoryName = e.target.value;
     const url = '/filter/category/';
-    if (!categoryName) { this.getAllItems() }
+    if (!categoryName) {
+      this.getAllItems();
+    }
     fetch(path.resolve(url, categoryName))
       .then((res) => res.json())
       .then((res) => {
@@ -86,7 +88,14 @@ class App extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const { itemTitle, itemDescription, itemCategory, itemImage, claimed, user_id } = this.state;
+    const {
+      itemTitle,
+      itemDescription,
+      itemCategory,
+      itemImage,
+      claimed,
+      user_id,
+    } = this.state;
     const body = {
       title: itemTitle,
       description: itemDescription,
@@ -114,7 +123,6 @@ class App extends Component {
       });
   }
 
-
   /*--- POST request to /LOG-IN---- */
   handleLoginSubmit(e) {
     e.preventDefault();
@@ -125,20 +133,20 @@ class App extends Component {
     fetch('/log-in', {
       method: 'POST',
       headers: {
-        "Content-Type": "Application/JSON"
+        'Content-Type': 'Application/JSON',
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
-      .then(res => {
-        console.log("res in /log-in", res);
+      .then((res) => {
+        console.log('res in /log-in', res);
         res.json();
 
-        this.setState({ isLoggedIn: true, password: '' })
-        this.props.history.push('/')
+        this.setState({ isLoggedIn: true, password: '' });
+        this.props.history.push('/');
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('/LOG-IN Post error: ', err);
-        this.setState({ userEmail: '', password: '' })
+        this.setState({ userEmail: '', password: '' });
       });
   }
 
@@ -169,26 +177,25 @@ class App extends Component {
 
     console.log('submit signUp req body:', body);
 
-
     fetch('/user/signup', {
       method: 'POST',
       headers: {
-        "Content-Type": "Application/JSON"
+        'Content-Type': 'Application/JSON',
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       // TODO: setState with isLoggedIn, clear pw
       // return to home page
-      .then(res => {
+      .then((res) => {
         console.log('res', res);
-        this.props.history.push('/')
+        this.props.history.push('/');
         // this.setState({})
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('AddItem Post error: ', err);
         // todo - clear all fields with setState
-        this.setState({})
+        this.setState({});
       });
   }
 
@@ -209,7 +216,8 @@ class App extends Component {
   // }
 
   /*--- GET Request for All items--- */
-  getAllItems() { // call in componentDidMount
+  getAllItems() {
+    // call in componentDidMount
     fetch('/item/all')
       .then((res) => res.json())
       .then((res) => {
@@ -226,10 +234,18 @@ class App extends Component {
   render() {
     return (
       <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-        <nav class="navbar navbar-expand-md navbar-light" style={{ backgroundColor: '#e4f3fe' }}>
+        <nav
+          className="navbar navbar-expand-md navbar-light"
+          style={{ backgroundColor: '#e4f3fe' }}
+        >
           <NavLink to="/" className="nav-brand">
-            <a className="navbar-brand" href="#" style={{ letterSpacing: '2px' }}>
-              genero<span style={{ color: 'gray', letterSpacing: '3px' }}>city</span>
+            <a
+              className="navbar-brand"
+              href="#"
+              style={{ letterSpacing: '2px' }}
+            >
+              genero
+              <span style={{ color: 'gray', letterSpacing: '3px' }}>city</span>
             </a>
           </NavLink>
           <button
@@ -246,7 +262,6 @@ class App extends Component {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
-
               <li className="nav-item active">
                 <NavLink to="/profile" className="nav-link">
                   Profile
@@ -258,7 +273,7 @@ class App extends Component {
                   className="form-control"
                   id="exampleFormControlSelect1"
                   name="itemCategory"
-                  onChange={e => {
+                  onChange={(e) => {
                     this.handleFilterChange(e);
                   }}
                 >
@@ -275,7 +290,11 @@ class App extends Component {
             </ul>
             <ul className="navbar-nav">
               <li className="nav-item">
-                <NavLink to="/login" className="nav-link" style={{ marginRight: '10px' }}>
+                <NavLink
+                  to="/login"
+                  className="nav-link"
+                  style={{ marginRight: '10px' }}
+                >
                   Login
                 </NavLink>
               </li>

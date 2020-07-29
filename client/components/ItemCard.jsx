@@ -9,15 +9,23 @@ class ItemCard extends Component {
   }
   // eslint-disable-next-line lines-between-class-members
   render() {
-    const { _id, category, description, image, status, title, user_id } = this.props.item;
+    const {
+      _id,
+      category,
+      description,
+      image,
+      status,
+      title,
+      user_id,
+    } = this.props.item;
     let claimed = status ? 'Yes' : 'No';
 
     return (
       <div>
-        <img class="card-img-top" src={image} />
-        <div class="card-body">
-          <h5 class="card-title">{title}</h5>
-          <p class="card-text">
+        <img className="card-img-top" src={image} />
+        <div className="card-body">
+          <h5 className="card-title">{title}</h5>
+          <p className="card-text">
             {/* Location: Enter Location Here <br /> */}
             <br />
             {description} <br />

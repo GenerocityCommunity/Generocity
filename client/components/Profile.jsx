@@ -104,7 +104,7 @@ class Profile extends Component {
             {/* <section className="cardItem">
               <button
                 type="button"
-                class="btn btn-dark editItemBtn"
+                className="btn btn-dark editItemBtn"
                 data-toggle="modal"
                 data-target="#editItemModal"
               >
@@ -119,35 +119,51 @@ class Profile extends Component {
     return (
       <>
         <div
-          class="modal fade"
+          className="modal fade"
           id="editItemModal"
           tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalScrollableTitle"
           aria-hidden="true"
         >
-          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">
+          <div
+            className="modal-dialog modal-dialog-centered modal-lg"
+            role="document"
+          >
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalScrollableTitle">
                   Edit Item
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div className="modal-body">
                 <EditItem
                   handleChange={this.handleChange}
                   handleSubmit={this.handleSubmit}
                   handleFileChange={this.handleFileChange}
                 />
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary loginAndSignUpBtn" data-dismiss="modal">
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary loginAndSignUpBtn"
+                  data-dismiss="modal"
+                >
                   Close
                 </button>
-                <button type="submit" class="btn btn-primary loginAndSignUpBtn" onClick={(e) => this.handleSubmit(e)}>
+                <button
+                  type="submit"
+                  className="btn btn-primary loginAndSignUpBtn"
+                  onClick={(e) => this.handleSubmit(e)}
+                >
                   Edit Item
                 </button>
               </div>
@@ -157,8 +173,11 @@ class Profile extends Component {
 
         <section className="userProfile">
           <h4>Welcome to Your Profile, {this.props.userFirstName}!</h4>
-          <p>Name: {this.props.userFirstName} {this.props.userLastName}< br />
-          User Email: {this.props.userEmail}</p>
+          <p>
+            Name: {this.props.userFirstName} {this.props.userLastName}
+            <br />
+            User Email: {this.props.userEmail}
+          </p>
           <h5>Your listed items:</h5>
         </section>
         <section className="itemsContainer">{cards}</section>
