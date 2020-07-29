@@ -53,12 +53,14 @@ class App extends Component {
     this.getCoordinates = this.getCoordinates.bind(this);
   }
 
+  /*----------- ComponentDidMount calls initial GET for all items -----------------*/
   componentDidMount() {
     this.getAllItems();
     // this.checkSession(); ---- session auth incomplete
-    this.getLocation(); // remove this after testing
+    this.getLocation();
   }
 
+  /*----------- Tracks changes in input forms and sets state -----------------*/
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -246,7 +248,7 @@ class App extends Component {
     }
   }
 
-  // ------- Sessions Authentication - called in componentDidMoun-------
+  // ------- Sessions Authentication - called in componentDidMount -------
   // checkSession() {
   //   fetch('/api/checksession')
   //   .then(res => res.json())
@@ -276,8 +278,6 @@ class App extends Component {
   }
 
   render() {
-
-
 
     return (
       <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
@@ -361,7 +361,7 @@ class App extends Component {
             render={(props) => (
               <Home
                 {...props}
-                allItems={this.state.allItems}
+                info={this.state}
                 handleSubmit={this.handleSubmit}
                 handleFileChange={this.handleFileChange}
                 handleChange={this.handleChange}
@@ -374,7 +374,7 @@ class App extends Component {
             path="/additem"
             render={(props) => (
               <AddItem
-                {...props} // add props here
+                {...props}
               />
             )}
           />
@@ -383,7 +383,7 @@ class App extends Component {
             path="/login"
             render={(props) => (
               <Login
-                {...props} // add props here
+                {...props}
                 handleLoginSubmit={this.handleLoginSubmit}
                 handleChange={this.handleChange}
               />
@@ -394,7 +394,7 @@ class App extends Component {
             path="/signup"
             render={(props) => (
               <SignUp
-                {...props} // add props here
+                {...props}
                 handleChange={this.handleChange}
                 handleSignUpSubmit={this.handleSignUpSubmit}
               />
@@ -406,15 +406,7 @@ class App extends Component {
             render={(props) => (
               <Profile
                 {...props}
-                allItems={this.state.allItems}
                 info={this.state}
-                user_id={this.state.user_id}
-                email={this.state.email}
-                firstName={this.state.firstName}
-                lastName={this.state.lastName}
-                // Pass to Profile Props for GeoLocation
-                latitude={this.state.latitude}
-                longitude={this.state.longitude}
               />
             )}
           />

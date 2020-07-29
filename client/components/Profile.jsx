@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 
 import ItemCard from './ItemCard.jsx';
 import EditItem from './EditItem';
+import EditItemModal from './EditItemModal.jsx'
 import '../scss/app.scss'; // would each page have different css?
 const path = require('path');
 
@@ -40,7 +41,7 @@ class Profile extends Component {
   /*--- GET request to get all items from server---- */
   getUserItems() {
     const url = '/user/';
-    const id = this.props.user_id;
+    const id = this.props.info.user_id;
     fetch(path.resolve(url, id))
       .then((res) => res.json())
       .then((res) => {
@@ -88,7 +89,23 @@ class Profile extends Component {
   //   });
   //}
 
-
+  deleteItem(e) {
+    const itemId = e.target.id
+    const url = `/item/${itemId}`;
+    fetch(url, { method: 'DELETE' }).catch((err) =>
+      console.log('delete error', err)
+    );
+    // copy existing state
+    let newUserItems = this.state.userItems.slice()
+    // delete userItems.item_id that we passed in
+    newUserItems.forEach((item, index) => {
+      if (item._id === Number(itemId)) {
+        newUserItems.splice(index, 1)
+      }
+    })
+    // call setState and set state equal to new object 
+    this.setState({ userItems: newUserItems })
+  }
 
   render() {
     const { latitude, longitude, firstName, lastName, email } = this.props.info;
@@ -119,8 +136,6 @@ class Profile extends Component {
               <button
                 type="button"
                 className="btn btn-dark editItemBtn"
-                data-toggle="modal"
-                data-target="#editItemModal"
                 id={item._id}
                 onClick={(e) => this.deleteItem(e)}>
                 Del
@@ -138,7 +153,12 @@ class Profile extends Component {
 
     return (
       <>
-        <div
+        <EditItemModal
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+          handleFileChange={this.handleFileChange}
+        />
+        {/* <div
           className="modal fade"
           id="editItemModal"
           tabIndex="-1"
@@ -189,7 +209,7 @@ class Profile extends Component {
               </div>
             </div >
           </div >
-        </div >
+        </div > */}
 
         <section className="userProfile">
           <h4>Welcome to Your Profile, {firstName}!</h4>
