@@ -1,4 +1,5 @@
 const db = require('../models/Models');
+const bcrypt = require('bcrypt');
 
 const UserController = {};
 
@@ -19,13 +20,29 @@ UserController.getUserItems = (req, res, next) => {
     // if successful, query will return list of itmems that user has posted
     const { rows } = data;
     res.locals.items = rows;
-    console.log('Successfully made GET request for all items that user has posted.');
+    console.log(
+      'Successfully made GET request for all items that user has posted.'
+    );
     return next();
   });
 };
 
 UserController.createUser = async (req, res, next) => {
-  const { email, password, firstName, lastName, zipCode, street, city, state } = req.body;
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+    zipCode,
+    street,
+    city,
+    state,
+  } = req.body;
+  let hashedPassword;
+  // Generate a salt with 10 rounds then hash
+  bcrypt.hash(password, 10, (err, hash) => {
+    hashedPassword = hash;
+  });
   try {
     // if user is in database, send res of user exists
     const findUser = `SELECT email, password
@@ -53,7 +70,7 @@ UserController.createUser = async (req, res, next) => {
       text: `INSERT INTO public.users("email", "firstName", "lastName", "password", "address_id")
              VALUES($1, $2, $3, $4, $5)
              RETURNING *`,
-      values: [email, firstName, lastName, password, address.rows[0]._id],
+      values: [email, firstName, lastName, hashedPassword, address.rows[0]._id],
     };
 
     await db.query(createUserQuery);
@@ -75,14 +92,23 @@ UserController.verifyUser = async (req, res, next) => {
     const userData = await db.query(findUser, queryParams);
     const user = userData.rows[0];
 
-    if (password === user.password) {
-      return next();
-    }
-    if (password !== user.password) {
-      return next({ log: 'Incorrect password' });
-    }
+    bcrypt.compare(password, user.password, function (err, result) {
+      if (err) {
+        return next(err);
+      }
+      if (result === true) {
+        console.log(
+          '/ * * * * * * * * * * * * * * USER SUCCESSFULLY LOGGED IN * * * * * * * * * * * * * * /'
+        );
+        return next();
+      }
+      if (result === false) {
+        return next({ log: 'Incorrect password' });
+      }
+    });
   } catch (e) {
-    return next({ log: 'Error returned, invalid username' });
+    // Changed 'invalid username' to 'invalid email'
+    return next({ log: 'Error returned, invalid email', error: e });
   }
 };
 

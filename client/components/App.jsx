@@ -136,7 +136,7 @@ class App extends Component {
     const { email, password } = this.state;
     const body = { email, password };
 
-    fetch('/log-in', {
+    fetch('/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'Application/JSON',
