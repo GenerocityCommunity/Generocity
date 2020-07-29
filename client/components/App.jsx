@@ -9,6 +9,7 @@ import Profile from './Profile.jsx';
 import AddItem from './AddItem.jsx';
 import { Route, Switch, NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
+import Navbar from './Navbar';
 
 class App extends Component {
   constructor(props) {
@@ -211,9 +212,12 @@ class App extends Component {
     // navigator.geolocation is a built-in browser object
     if (navigator.geolocation) {
       // invoke built-in method to get current position, passing in coordinates and error handler
-      navigator.geolocation.getCurrentPosition(this.getCoordinates, this.handleLocationError);
+      navigator.geolocation.getCurrentPosition(
+        this.getCoordinates,
+        this.handleLocationError
+      );
     } else {
-      console.log("Geolocation is not supported by this browser.");
+      console.log('Geolocation is not supported by this browser.');
     }
   }
 
@@ -222,23 +226,23 @@ class App extends Component {
     this.setState({
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
-    })
+    });
   }
 
   // handles errors for getting user location
   handleLocationError(error) {
     switch (error.code) {
       case error.PERMISSION_DENIED:
-        console.log("User denied the request for Geolocation.");
+        console.log('User denied the request for Geolocation.');
         break;
       case error.POSITION_UNAVAILABLE:
-        console.log("Location information is unavailable.");
+        console.log('Location information is unavailable.');
         break;
       case error.TIMEOUT:
-        console.log("The request to get user location timed out.");
+        console.log('The request to get user location timed out.');
         break;
       case error.UNKNOWN_ERROR:
-        console.log("An unknown error occurred.");
+        console.log('An unknown error occurred.');
         break;
       default:
         console.log('An unknown error occurred.');
@@ -280,78 +284,7 @@ class App extends Component {
   render() {
     return (
       <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-        <nav
-          className="navbar navbar-expand-md navbar-light"
-          style={{ backgroundColor: '#e4f3fe' }}
-        >
-          <NavLink to="/" className="nav-brand">
-            <a
-              className="navbar-brand"
-              href="#"
-              style={{ letterSpacing: '2px' }}
-            >
-              genero
-              <span style={{ color: 'gray', letterSpacing: '3px' }}>city</span>
-            </a>
-          </NavLink>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <NavLink to="/profile" className="nav-link">
-                  Profile
-                </NavLink>
-              </li>
-
-              <div id="filterBox">
-                <select
-                  className="form-control"
-                  id="exampleFormControlSelect1"
-                  name="itemCategory"
-                  onChange={(e) => {
-                    this.handleFilterChange(e);
-                  }}
-                >
-                  <option>Category</option>
-                  <option value="">All</option>
-                  <option value="Appliances">Appliances</option>
-                  <option value="Plants">Plants</option>
-                  <option value="Sports">Sports</option>
-                  <option value="Clothing">Clothing</option>
-                  <option value="Books">Books</option>
-                  <option value="Miscellaneous">Miscellaneous</option>
-                </select>
-              </div>
-            </ul>
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <NavLink
-                  to="/login"
-                  className="nav-link"
-                  style={{ marginRight: '10px' }}
-                >
-                  Login
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/signup" className="nav-link">
-                  Sign Up
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <Navbar handleFilterChange={this.handleFilterChange} />
 
         <Switch>
           <Route
@@ -360,11 +293,7 @@ class App extends Component {
             render={(props) => (
               <Home
                 {...props}
-                allItems={this.state.allItems}
-                userItems={this.state.userItems}
-                userEmail={this.state.userEmail}
-                userAddress={this.state.userAddress}
-                userId={this.state.user_id}
+                info={this.state}
                 handleSubmit={this.handleSubmit}
                 handleFileChange={this.handleFileChange}
                 handleChange={this.handleChange}
@@ -409,14 +338,15 @@ class App extends Component {
             render={(props) => (
               <Profile
                 {...props}
-                allItems={this.state.allItems}
-                userId={this.state.user_id}
-                userEmail={this.state.userEmail}
-                userFirstName={this.state.userFirstName}
-                userLastName={this.state.userLastName}
-                // Pass to Profile Props for GeoLocation
-                latitude={this.state.latitude}
-                longitude={this.state.longitude}
+                info={this.state}
+                // allItems={this.state.allItems}
+                // userId={this.state.user_id}
+                // userEmail={this.state.userEmail}
+                // userFirstName={this.state.userFirstName}
+                // userLastName={this.state.userLastName}
+                // // Pass to Profile Props for GeoLocation
+                // latitude={this.state.latitude}
+                // longitude={this.state.longitude}
               />
             )}
           />

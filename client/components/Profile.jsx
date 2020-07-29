@@ -40,7 +40,7 @@ class Profile extends Component {
   /*--- GET request to get all items from server---- */
   getUserItems() {
     const url = '/user/';
-    const id = this.props.userId;
+    const id = this.props.info.user_id;
     fetch(path.resolve(url, id))
       .then((res) => res.json())
       .then((res) => {
@@ -50,8 +50,6 @@ class Profile extends Component {
         console.log('/item/user GET error: ', err);
       });
   }
-
-
 
   /*--- POST request to edit item to server---- */
   // handleSubmit(e) {
@@ -90,136 +88,147 @@ class Profile extends Component {
   //   });
   //}
 
-
+  deleteItem(e) {
+    const url = `/item/${e.target.id}`;
+    fetch(url, { method: 'DELETE' }).catch((err) =>
+      console.log('delete error', err)
+    );
+  }
 
   render() {
+    const {
+      latitude,
+      longitude,
+      userEmail,
+      userFirstName,
+      userLastName,
+    } = this.props.info;
+
+    console.log('latitude', latitude);
+    console.log('longitude', longitude);
+
+    // getting state from Profile state fetch request
     const { userItems } = this.state;
     const cards = userItems.map((item) => {
-  //console.log('item', item);
-  //if card === user card id
-  return (
-    <>
-      <section className="card">
-        <ItemCard
-          item={item}
-          name={item.itemTitle}
-          userid={item.itemUserId}
-          location={item.itemAddress}
-          status={item.itemStatus}
-          id={item._id}
-        />
-        <section className="cardItem">
-          {/* <EditItem /> */}
-          <button
-            type="button"
-            className="btn btn-dark editItemBtn"
-            data-toggle="modal"
-            data-target="#editItemModal"
-            id={item._id}
-          >
-            Edit
+      //console.log('item', item);
+      //if card === user card id
+      return (
+        <>
+          <section className="card">
+            <ItemCard
+              item={item}
+              name={item.itemTitle}
+              userid={item.itemUserId}
+              location={item.itemAddress}
+              status={item.itemStatus}
+              id={item._id}
+            />
+            <section className="cardItem">
+              {/* <EditItem /> */}
+              <button
+                type="button"
+                className="btn btn-dark editItemBtn"
+                data-toggle="modal"
+                data-target="#editItemModal"
+                id={item._id}
+              >
+                Edit
               </button>
-          <button
-            type="button"
-            className="btn btn-dark editItemBtn"
-            data-toggle="modal"
-            data-target="#editItemModal"
-            id={item._id}
-            onClick={(e) => this.deleteItem(e)}>
-            Del
+              <button
+                type="button"
+                className="btn btn-dark editItemBtn"
+                id={item._id}
+                onClick={(e) => this.deleteItem(e)}
+              >
+                Del
               </button>
-        </section>
-      </section>
-    </>
-  );
-});
+            </section>
+          </section>
+        </>
+      );
+    });
 
-    // Dynamic URL  (string interpolation) for google maps (static) api link 
-    let mapSrc = `https://maps.googleapis.com/maps/api/staticmap?center=${this.props.latitude}, ${this.props.longitude}&zoom=13&size=600x300&maptype=roadmap
-    &markers=color:red%7C${this.props.latitude}, ${this.props.longitude}
-    &key=${process.env.GOOGLE_API_KEY}`
+    // Dynamic URL  (string interpolation) for google maps (static) api link
+    let mapSrc = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude}, ${longitude}&zoom=13&size=600x300&maptype=roadmap
+    &markers=color:red%7C${latitude}, ${longitude}
+    &key=${process.env.GOOGLE_API_KEY}`;
 
-return (
-  <>
+    return (
+      <>
         <div
           className="modal fade"
           id="editItemModal"
-      tabIndex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalScrollableTitle"
-      aria-hidden="true"
-    >
-      <div
-        className="modal-dialog modal-dialog-centered modal-lg"
-        role="document"
-      >
-          <div className="modal-content">
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalScrollableTitle"
+          aria-hidden="true"
+        >
+          <div
+            className="modal-dialog modal-dialog-centered modal-lg"
+            role="document"
+          >
+            <div className="modal-content">
               <div className="modal-header">
-            <h5 className="modal-title" id="exampleModalScrollableTitle">
-              Edit Item
-            </h5>
-            <button
-              type="button"
-              className="close"
-              data-dismiss="modal"
+                <h5 className="modal-title" id="exampleModalScrollableTitle">
+                  Edit Item
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
                   aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
+                >
+                  <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div className="modal-body">
                 <EditItem
                   handleChange={this.handleChange}
                   handleSubmit={this.handleSubmit}
-          handleFileChange={this.handleFileChange}
-        />
+                  handleFileChange={this.handleFileChange}
+                />
               </div>
               <div className="modal-footer">
-      <button
+                <button
                   type="button"
                   className="btn btn-secondary loginAndSignUpBtn"
                   data-dismiss="modal"
-      >
-        Close
+                >
+                  Close
                 </button>
                 <button
                   type="submit"
                   className="btn btn-primary loginAndSignUpBtn"
                   onClick={(e) => this.handleSubmit(e)}
                 >
-      Edit Item
+                  Edit Item
                 </button>
-  </div>   
-            </div >   
-          </div >
-        </div > 
-  
-  <section  className="userProfile">
-    <h4>Welcome to Your Profile, {this.props.userFirstName}!</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section className="userProfile">
+          <h4>Welcome to Your Profile, {userFirstName}!</h4>
           <p>
-            N ame: {this.props.userFirstName} {this.props.userLastName}
+            N ame: {userFirstName} {userLastName}
             <br />
-      User Email: {this.props.userEmail}
-    </p>
-    {/* if latitude and longitude do not exist in props, then render nothing
+            User Email: {userEmail}
+          </p>
+          {/* if latitude and longitude do not exist in props, then render nothing
       if it does exist, then render map from Google API */}
-      {
-            this.props.latitude && this.props.longitude ?
-        <img src={mapSrc} alt='' /> : null
-    }
+          {latitude && longitude ? <img src={mapSrc} alt="" /> : null}
           <br></br>
-    <br></br>
-      <br></br>
-        <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
           <br></br>
           <h5>Your listed items:</h5>
         </section>
-        <section className="itemsContainer">
-  {cards}
-        </section>
+        <section className="itemsContainer">{cards}</section>
       </>
-    );  
+    );
   }
-  }
+}
 
 export default Profile;
