@@ -54,12 +54,14 @@ class App extends Component {
     this.getCoordinates = this.getCoordinates.bind(this);
   }
 
+  /*----------- ComponentDidMount calls initial GET for all items -----------------*/
   componentDidMount() {
     this.getAllItems();
     // this.checkSession(); ---- session auth incomplete
-    this.getLocation(); // remove this after testing
+    this.getLocation();
   }
 
+  /*----------- Tracks changes in input forms and sets state -----------------*/
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -243,7 +245,7 @@ class App extends Component {
     }
   }
 
-  // ------- Sessions Authentication - called in componentDidMoun-------
+  // ------- Sessions Authentication - called in componentDidMount -------
   // checkSession() {
   //   fetch('/api/checksession')
   //   .then(res => res.json())
@@ -295,18 +297,14 @@ class App extends Component {
           <Route
             exact
             path="/additem"
-            render={(props) => (
-              <AddItem
-                {...props} // add props here
-              />
-            )}
+            render={(props) => <AddItem {...props} />}
           />
           <Route
             exact
             path="/login"
             render={(props) => (
               <Login
-                {...props} // add props here
+                {...props}
                 handleLoginSubmit={this.handleLoginSubmit}
                 handleChange={this.handleChange}
               />
@@ -317,7 +315,7 @@ class App extends Component {
             path="/signup"
             render={(props) => (
               <SignUp
-                {...props} // add props here
+                {...props}
                 handleChange={this.handleChange}
                 handleSignUpSubmit={this.handleSignUpSubmit}
               />

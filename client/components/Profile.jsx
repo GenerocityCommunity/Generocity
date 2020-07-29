@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 
 import ItemCard from './ItemCard.jsx';
 import EditItem from './EditItem';
+import EditItemModal from './EditItemModal.jsx';
 import '../scss/app.scss'; // would each page have different css?
 const path = require('path');
 
@@ -40,11 +41,9 @@ class Profile extends Component {
   /*--- GET request to get all items from server---- */
   getUserItems() {
     const url = '/user/';
-<<<<<<< HEAD
+
     const id = this.props.info.user_id;
-=======
-    const id = this.props.user_id;
->>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
+
     fetch(path.resolve(url, id))
       .then((res) => res.json())
       .then((res) => {
@@ -93,51 +92,36 @@ class Profile extends Component {
   //}
 
   deleteItem(e) {
-    const url = `/item/${e.target.id}`;
+    const itemId = e.target.id;
+    const url = `/item/${itemId}`;
     fetch(url, { method: 'DELETE' }).catch((err) =>
       console.log('delete error', err)
     );
+    // copy existing state
+    let newUserItems = this.state.userItems.slice();
+    // delete userItems.item_id that we passed in
+    newUserItems.forEach((item, index) => {
+      if (item._id === Number(itemId)) {
+        newUserItems.splice(index, 1);
+      }
+    });
+    // call setState and set state equal to new object
+    this.setState({ userItems: newUserItems });
   }
 
   render() {
-<<<<<<< HEAD
-    const {
-      latitude,
-      longitude,
-      userEmail,
-      userFirstName,
-      userLastName,
-    } = this.props.info;
-
-    console.log('latitude', latitude);
-    console.log('longitude', longitude);
-
-    // getting state from Profile state fetch request
-    const { userItems } = this.state;
-    const cards = userItems.map((item) => {
-      //console.log('item', item);
-      //if card === user card id
-=======
     const { latitude, longitude, firstName, lastName, email } = this.props.info;
     const { userItems } = this.state;
     const cards = userItems.map((item) => {
->>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
       return (
         <>
           <section className="card">
             <ItemCard
               item={item}
-<<<<<<< HEAD
-              name={item.itemTitle}
-              userid={item.itemUserId}
-              location={item.itemAddress}
-              status={item.itemStatus}
-=======
               name={item.title}
               user_id={item.itemuser_id}
               location={item.itemAddress}
               status={item.status}
->>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
               id={item._id}
             />
             <section className="cardItem">
@@ -154,16 +138,9 @@ class Profile extends Component {
               <button
                 type="button"
                 className="btn btn-dark editItemBtn"
-<<<<<<< HEAD
                 id={item._id}
                 onClick={(e) => this.deleteItem(e)}
               >
-=======
-                data-toggle="modal"
-                data-target="#editItemModal"
-                id={item._id}
-                onClick={(e) => this.deleteItem(e)}>
->>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
                 Del
               </button>
             </section>
@@ -172,21 +149,19 @@ class Profile extends Component {
       );
     });
 
-<<<<<<< HEAD
     // Dynamic URL  (string interpolation) for google maps (static) api link
     let mapSrc = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude}, ${longitude}&zoom=13&size=600x300&maptype=roadmap
     &markers=color:red%7C${latitude}, ${longitude}
     &key=${process.env.GOOGLE_API_KEY}`;
-=======
-    // Dynamic URL  (string interpolation) for google maps (static) api link 
-    let mapSrc = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude}, ${longitude}&zoom=13&size=600x300&maptype=roadmap
-    &markers=color:red%7C${latitude}, ${longitude}
-    &key=${process.env.GOOGLE_API_KEY}`
->>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
 
     return (
       <>
-        <div
+        <EditItemModal
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+          handleFileChange={this.handleFileChange}
+        />
+        {/* <div
           className="modal fade"
           id="editItemModal"
           tabIndex="-1"
@@ -202,11 +177,7 @@ class Profile extends Component {
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalScrollableTitle">
                   Edit Item
-<<<<<<< HEAD
-                </h5>
-=======
             </h5>
->>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
                 <button
                   type="button"
                   className="close"
@@ -239,33 +210,9 @@ class Profile extends Component {
                   Edit Item
                 </button>
               </div>
-<<<<<<< HEAD
-            </div>
-          </div>
-        </div>
-
-        <section className="userProfile">
-          <h4>Welcome to Your Profile, {userFirstName}!</h4>
-          <p>
-            N ame: {userFirstName} {userLastName}
-            <br />
-            User Email: {userEmail}
-          </p>
-          {/* if latitude and longitude do not exist in props, then render nothing
-      if it does exist, then render map from Google API */}
-          {latitude && longitude ? <img src={mapSrc} alt="" /> : null}
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <h5>Your listed items:</h5>
-        </section>
-        <section className="itemsContainer">{cards}</section>
-=======
             </div >
           </div >
-        </div >
+        </div > */}
 
         <section className="userProfile">
           <h4>Welcome to Your Profile, {firstName}!</h4>
@@ -276,10 +223,7 @@ class Profile extends Component {
           </p>
           {/* if latitude and longitude do not exist in props, then render nothing
       if it does exist, then render map from Google API */}
-          {
-            latitude && longitude ?
-              <img src={mapSrc} alt='' /> : null
-          }
+          {latitude && longitude ? <img src={mapSrc} alt="" /> : null}
           <br />
           <br />
           <br />
@@ -287,10 +231,7 @@ class Profile extends Component {
           <br />
           <h5>Your listed items:</h5>
         </section>
-        <section className="itemsContainer">
-          {cards}
-        </section>
->>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
+        <section className="itemsContainer">{cards}</section>
       </>
     );
   }
