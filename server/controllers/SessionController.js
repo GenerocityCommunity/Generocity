@@ -7,10 +7,12 @@ const SessionController = {};
 
 SessionController.startSession = async (req, res, next) => {
   const createSessionQuery = {
-    text:
-      'INSERT INTO public.sessions("cookie", "created_At", "expiration", "user_id") VALUES($1, current_timestamp, $2, $3) RETURNING *',
+    text: `INSERT INTO public.sessions("cookie", "created_At", "expiration", "user_id")
+           VALUES($1, current_timestamp, $2, $3)
+           RETURNING *`,
     values: [res.locals.ssid, 500000, res.locals.ssid],
   };
+
   try {
     const session = await db.query(createSessionQuery);
     console.log('session created successfully', session);
@@ -27,16 +29,16 @@ SessionController.startSession = async (req, res, next) => {
 SessionController.isLoggedIn = async (req, res, next) => {
   // query database for cookie ssid *SSID is also the mongoose ID
   const { ssid } = req.cookies;
-  console.log('req.cookies', req.cookies);
-  const sessionJoinQuery = `
-  SELECT u.*, s.*
-  FROM public.users u
-  RIGHT OUTER JOIN public.sessions s
-  ON u._id = s.user_id
-  WHERE (s.cookie = '${ssid}')`;
+
+  const sessionJoinQuery = `SELECT u.*, s.*
+                            FROM public.users u
+                            RIGHT OUTER JOIN public.sessions s
+                            ON u._id = s.user_id
+                            WHERE (s.cookie = $1)`;
+  const queryParams = [ssid];
 
   try {
-    const sessionJoin = await db.query(sessionJoinQuery);
+    const sessionJoin = await db.query(sessionJoinQuery, queryParams);
     console.log('sessionjoin', sessionJoin.rows);
     res.locals.email = sessionJoin.rows[0].email;
     return next();
