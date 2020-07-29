@@ -32,7 +32,7 @@ class Profile extends Component {
   handleFileChange(e) {
     console.log('input Image:', e.target.value);
     this.setState({
-      itemImage: e.target.value,
+      image: e.target.value,
     });
   }
   //
@@ -40,7 +40,11 @@ class Profile extends Component {
   /*--- GET request to get all items from server---- */
   getUserItems() {
     const url = '/user/';
+<<<<<<< HEAD
     const id = this.props.info.user_id;
+=======
+    const id = this.props.user_id;
+>>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
     fetch(path.resolve(url, id))
       .then((res) => res.json())
       .then((res) => {
@@ -54,13 +58,13 @@ class Profile extends Component {
   /*--- POST request to edit item to server---- */
   // handleSubmit(e) {
   //   e.preventDefault();
-  //   const { itemTitle, itemDescription, itemCategory, itemImage, claimed, _id } = this.state;
+  //   const { title, description, category, image, status, _id } = this.state;
   //   const body = {
-  //     title: itemTitle,
-  //     description: itemDescription,
-  //     image: itemImage,
-  //     category: itemCategory,
-  //     status: claimed,
+  //     title: title,
+  //     description: description,
+  //     image: image,
+  //     category: category,
+  //     status: status,
   //     id: _id,
   //   };
 
@@ -76,14 +80,14 @@ class Profile extends Component {
   //   .then((res) => {
   //     res.json();
   //     // refresh state values
-  //     // this.setState({ itemTitle: '', itemDescription: '', itemCategory: '', itemImage: '', itemAddress: '' })
+  //     // this.setState({ title: '', description: '', category: '', image: '', itemAddress: '' })
   //     // return to home page
   //     // this.props.history.push('/')
   //     console.log('res in AddItem', res);
   //   })
   //   .catch((err) => {
   //     console.log('AddItem Post error: ', err);
-  //     // this.setState({ itemTitle: '', itemDescription: '', itemCategory: '', itemImage: '', itemAddress: '' })
+  //     // this.setState({ title: '', description: '', category: '', image: '', itemAddress: '' })
   //     this.props.history.push('/');
   //   });
   //}
@@ -96,6 +100,7 @@ class Profile extends Component {
   }
 
   render() {
+<<<<<<< HEAD
     const {
       latitude,
       longitude,
@@ -112,15 +117,27 @@ class Profile extends Component {
     const cards = userItems.map((item) => {
       //console.log('item', item);
       //if card === user card id
+=======
+    const { latitude, longitude, firstName, lastName, email } = this.props.info;
+    const { userItems } = this.state;
+    const cards = userItems.map((item) => {
+>>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
       return (
         <>
           <section className="card">
             <ItemCard
               item={item}
+<<<<<<< HEAD
               name={item.itemTitle}
               userid={item.itemUserId}
               location={item.itemAddress}
               status={item.itemStatus}
+=======
+              name={item.title}
+              user_id={item.itemuser_id}
+              location={item.itemAddress}
+              status={item.status}
+>>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
               id={item._id}
             />
             <section className="cardItem">
@@ -137,9 +154,16 @@ class Profile extends Component {
               <button
                 type="button"
                 className="btn btn-dark editItemBtn"
+<<<<<<< HEAD
                 id={item._id}
                 onClick={(e) => this.deleteItem(e)}
               >
+=======
+                data-toggle="modal"
+                data-target="#editItemModal"
+                id={item._id}
+                onClick={(e) => this.deleteItem(e)}>
+>>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
                 Del
               </button>
             </section>
@@ -148,10 +172,17 @@ class Profile extends Component {
       );
     });
 
+<<<<<<< HEAD
     // Dynamic URL  (string interpolation) for google maps (static) api link
     let mapSrc = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude}, ${longitude}&zoom=13&size=600x300&maptype=roadmap
     &markers=color:red%7C${latitude}, ${longitude}
     &key=${process.env.GOOGLE_API_KEY}`;
+=======
+    // Dynamic URL  (string interpolation) for google maps (static) api link 
+    let mapSrc = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude}, ${longitude}&zoom=13&size=600x300&maptype=roadmap
+    &markers=color:red%7C${latitude}, ${longitude}
+    &key=${process.env.GOOGLE_API_KEY}`
+>>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
 
     return (
       <>
@@ -171,7 +202,11 @@ class Profile extends Component {
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalScrollableTitle">
                   Edit Item
+<<<<<<< HEAD
                 </h5>
+=======
+            </h5>
+>>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
                 <button
                   type="button"
                   className="close"
@@ -204,6 +239,7 @@ class Profile extends Component {
                   Edit Item
                 </button>
               </div>
+<<<<<<< HEAD
             </div>
           </div>
         </div>
@@ -226,6 +262,35 @@ class Profile extends Component {
           <h5>Your listed items:</h5>
         </section>
         <section className="itemsContainer">{cards}</section>
+=======
+            </div >
+          </div >
+        </div >
+
+        <section className="userProfile">
+          <h4>Welcome to Your Profile, {firstName}!</h4>
+          <p>
+            Name: {firstName} {lastName}
+            <br />
+            User Email: {email}
+          </p>
+          {/* if latitude and longitude do not exist in props, then render nothing
+      if it does exist, then render map from Google API */}
+          {
+            latitude && longitude ?
+              <img src={mapSrc} alt='' /> : null
+          }
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <h5>Your listed items:</h5>
+        </section>
+        <section className="itemsContainer">
+          {cards}
+        </section>
+>>>>>>> ca0ed93bcf474676ca0e709eeb99bbc2be7b879d
       </>
     );
   }

@@ -18,34 +18,35 @@ class App extends Component {
       // store most state in App component, make available to child components as props
       isloggedIn: false,
       allItems: [], // (each item is an object)
-      userEmail: 'Dave',
-      userPoints: '',
-      userFirstName: 'Dave',
-      userLastName: "O'Sullivan",
+      /* State for Current User */
+      email: 'dave@gmail.com',
+      points: '',
+      firstName: 'Dave',
+      lastName: "O'Sullivan",
       password: '',
-      userStreet: '',
-      userStreet2: '', // add this to frontend, backend, and db
-      userCity: '',
-      userState: '',
-      userZip: '',
+      street: '',
+      street2: '', // add this to frontend, backend, and db
+      city: '',
+      state: '',
+      zipCode: '',
       /* State for Geolocation Feature */
       latitude: null,
       longitude: null,
-      /* State for a single item */
-      itemTitle: '',
-      itemDescription: '',
-      itemCategory: '',
-      itemImage: '',
-      claimed: false,
+      /* State for Single Item */
+      title: '',
+      description: '',
+      category: '',
+      image: '',
+      status: false,
       user_id: '2',
       redirect: null,
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.getAllItems = this.getAllItems.bind(this);
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.handleSignUpSubmit = this.handleSignUpSubmit.bind(this);
-    this.getAllItems = this.getAllItems.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
     // this.checkSession = this.checkSession.bind(this);
     /* Bind for Geolocation Feature */
@@ -67,7 +68,7 @@ class App extends Component {
 
   handleFileChange(e) {
     this.setState({
-      itemImage:
+      image:
         e.target
           .value /**URL.createObjectURL(e.target.files[0]) to display image before submit (for file uploads, not URLs) */,
     });
@@ -96,22 +97,17 @@ class App extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      itemTitle,
-      itemDescription,
-      itemCategory,
-      itemImage,
-      claimed,
-      user_id,
-    } = this.state;
+    const { title, description, category, image, status, user_id } = this.state;
+
     const body = {
-      title: itemTitle,
-      description: itemDescription,
-      image: itemImage,
-      category: itemCategory,
-      status: claimed,
+      title,
+      description,
+      image,
+      category,
+      status,
       user_id,
     };
+
     const url = '/item/add';
     fetch(url, {
       method: 'POST',
@@ -135,8 +131,8 @@ class App extends Component {
   handleLoginSubmit(e) {
     e.preventDefault();
 
-    const { userEmail, password } = this.state;
-    const body = { userEmail, password };
+    const { email, password } = this.state;
+    const body = { email, password };
 
     fetch('/log-in', {
       method: 'POST',
@@ -154,7 +150,7 @@ class App extends Component {
       })
       .catch((err) => {
         console.log('/LOG-IN Post error: ', err);
-        this.setState({ userEmail: '', password: '' });
+        this.setState({ email: '', password: '' });
       });
   }
 
@@ -163,27 +159,26 @@ class App extends Component {
     e.preventDefault();
 
     const {
-      userFirstName,
-      userLastName,
+      firstName,
+      lastName,
       password,
-      userEmail,
-      userStreet,
-      userState,
-      userCity,
-      userZip,
+      email,
+      street,
+      state,
+      city,
+      zipCode,
     } = this.state;
-    const body = {
-      email: userEmail,
-      password,
-      firstName: userFirstName,
-      lastName: userLastName,
-      zipCode: userZip,
-      street: userStreet,
-      city: userCity,
-      state: userState,
-    };
 
-    console.log('submit signUp req body:', body);
+    const body = {
+      email,
+      password,
+      firstName,
+      lastName,
+      zipCode,
+      street,
+      city,
+      state,
+    };
 
     fetch('/user/signup', {
       method: 'POST',
@@ -222,7 +217,6 @@ class App extends Component {
   }
 
   getCoordinates(position) {
-    console.log('position', position);
     this.setState({
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
@@ -249,7 +243,7 @@ class App extends Component {
     }
   }
 
-  // ---------------------check session - called in componentDidMount-------------------------
+  // ------- Sessions Authentication - called in componentDidMoun-------
   // checkSession() {
   //   fetch('/api/checksession')
   //   .then(res => res.json())
@@ -265,17 +259,14 @@ class App extends Component {
   //   })
   // }
 
-  /*--- GET Request for All items--- */
+  /*--- GET Request for All items --- */
   getAllItems() {
-    // call in componentDidMount
+    // called in componentDidMount
     fetch('/item/all')
       .then((res) => res.json())
       .then((res) => {
-        console.log('res', res);
-        // update state with array
         this.setState({ allItems: res.items });
       })
-      // this.props.history.push('/'))
       .catch((err) => {
         console.log('/item/all GET error: ', err);
       });
@@ -326,29 +317,16 @@ class App extends Component {
             path="/signup"
             render={(props) => (
               <SignUp
+                {...props} // add props here
                 handleChange={this.handleChange}
                 handleSignUpSubmit={this.handleSignUpSubmit}
-                {...props} // add props here
               />
             )}
           />
           <Route
             exact
             path="/profile"
-            render={(props) => (
-              <Profile
-                {...props}
-                info={this.state}
-                // allItems={this.state.allItems}
-                // userId={this.state.user_id}
-                // userEmail={this.state.userEmail}
-                // userFirstName={this.state.userFirstName}
-                // userLastName={this.state.userLastName}
-                // // Pass to Profile Props for GeoLocation
-                // latitude={this.state.latitude}
-                // longitude={this.state.longitude}
-              />
-            )}
+            render={(props) => <Profile {...props} info={this.state} />}
           />
         </Switch>
       </div>
