@@ -3,7 +3,6 @@ import React, { Component, Fragment } from 'react';
 import ItemCard from './ItemCard.jsx';
 import EditItem from './EditItem';
 import '../scss/app.scss'; // would each page have different css?
-
 const path = require('path');
 
 // create local state for get request of user profile
@@ -29,6 +28,7 @@ class Profile extends Component {
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
+
   handleFileChange(e) {
     console.log('input Image:', e.target.value);
     this.setState({
@@ -38,7 +38,6 @@ class Profile extends Component {
   //
 
   /*--- GET request to get all items from server---- */
-
   getUserItems() {
     const url = '/user/';
     const id = this.props.userId;
@@ -88,6 +87,7 @@ class Profile extends Component {
   //     this.props.history.push('/');
   //   });
   //}
+
   render() {
     const { userItems } = this.state;
     const cards = userItems.map((item) => {
@@ -115,6 +115,11 @@ class Profile extends Component {
         </>
       );
     });
+
+    // Dynamic URL (string interpolation) for google maps (static) api link 
+    let mapSrc = `https://maps.googleapis.com/maps/api/staticmap?center=${this.props.latitude}, ${this.props.longitude}&zoom=13&size=600x300&maptype=roadmap
+    &markers=color:red%7C${this.props.latitude}, ${this.props.longitude}
+    &key=${process.env.GOOGLE_API_KEY}`
 
     return (
       <>
@@ -178,9 +183,22 @@ class Profile extends Component {
             <br />
             User Email: {this.props.userEmail}
           </p>
+          {/* if latitude and longitude do not exist in props, then render nothing
+          if it does exist, then render map from Google API */}
+          {
+            this.props.latitude && this.props.longitude ?
+              <img src={mapSrc} alt='' /> : null
+          }
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
           <h5>Your listed items:</h5>
         </section>
-        <section className="itemsContainer">{cards}</section>
+        <section className="itemsContainer">
+          {cards}
+        </section>
       </>
     );
   }

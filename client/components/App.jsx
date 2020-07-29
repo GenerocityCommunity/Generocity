@@ -23,10 +23,13 @@ class App extends Component {
       userLastName: "O'Sullivan",
       password: '',
       userStreet: '',
-      userStreet2: '',
+      userStreet2: '', // add this to frontend, backend, and db
       userCity: '',
       userState: '',
       userZip: '',
+      /* State for Geolocation Feature */
+      latitude: null,
+      longitude: null,
       /* State for a single item */
       itemTitle: '',
       itemDescription: '',
@@ -44,11 +47,17 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
     // this.checkSession = this.checkSession.bind(this);
+    /* Bind for Geolocation Feature */
+    this.getLocation = this.getLocation.bind(this);
+    this.getCoordinates = this.getCoordinates.bind(this);
   }
+
   componentDidMount() {
     this.getAllItems();
     // this.checkSession(); ---- session auth incomplete
+    this.getLocation(); // remove this after testing
   }
+
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -56,7 +65,6 @@ class App extends Component {
   /*----------- handle file change (image input) (AddItem)-----------------*/
 
   handleFileChange(e) {
-    console.log('input Image:', e.target.value);
     this.setState({
       itemImage:
         e.target
@@ -76,7 +84,6 @@ class App extends Component {
     fetch(path.resolve(url, categoryName))
       .then((res) => res.json())
       .then((res) => {
-        console.log('res', res);
         this.setState({ allItems: res.items });
       })
       .catch((err) => {
@@ -197,6 +204,44 @@ class App extends Component {
         // todo - clear all fields with setState
         this.setState({});
       });
+  }
+
+  /*----------------Geolocation-------------------*/
+  getLocation() {
+    // navigator.geolocation is a built-in browser object
+    if (navigator.geolocation) {
+      // invoke built-in method to get current position, passing in coordinates and error handler
+      navigator.geolocation.getCurrentPosition(this.getCoordinates, this.handleLocationError);
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }
+
+  getCoordinates(position) {
+    this.setState({
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+    })
+  }
+
+  // handles errors for getting user location
+  handleLocationError(error) {
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        console.log("User denied the request for Geolocation.");
+        break;
+      case error.POSITION_UNAVAILABLE:
+        console.log("Location information is unavailable.");
+        break;
+      case error.TIMEOUT:
+        console.log("The request to get user location timed out.");
+        break;
+      case error.UNKNOWN_ERROR:
+        console.log("An unknown error occurred.");
+        break;
+      default:
+        console.log('An unknown error occurred.');
+    }
   }
 
   // ---------------------check session - called in componentDidMount-------------------------
@@ -368,6 +413,9 @@ class App extends Component {
                 userEmail={this.state.userEmail}
                 userFirstName={this.state.userFirstName}
                 userLastName={this.state.userLastName}
+                // Pass to Profile Props for GeoLocation
+                latitude={this.state.latitude}
+                longitude={this.state.longitude}
               />
             )}
           />
