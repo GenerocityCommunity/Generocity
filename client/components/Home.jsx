@@ -22,8 +22,6 @@ class Home extends Component {
         <div className="card">
           <ItemCard
             item={item}
-            sendMessageButton={this.props.sendMessage}
-            inProfile={false}
           />
         </div>
       );

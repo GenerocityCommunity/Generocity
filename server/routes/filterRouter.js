@@ -11,5 +11,4 @@ router.get('/:column/:filterBy', FilterController.filterByCategory, (req, res, n
   res.status(200).json(res.locals);
 })
 
-
 module.exports = router;
