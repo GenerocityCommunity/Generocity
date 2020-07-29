@@ -13,8 +13,8 @@ class Home extends Component {
   }
 
   render() {
-    const { allItems } = this.props; // provides this.state.allItems as an array
-
+    // console.log('home props', this.props.allItems);
+    const { allItems } = this.props.info; // provides this.state.allItems as an array
     // use map method to transform allItems into cards
     const cards = allItems.map((item) => {
       return (
