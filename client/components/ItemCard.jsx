@@ -10,15 +10,16 @@ class ItemCard extends Component {
   // eslint-disable-next-line lines-between-class-members
   render() {
     const {
-      _id,
       category,
       description,
       image,
       status,
       title,
+      /* build query on backend to populate item location for each item card */
+      // city, 
+      // state,
       user_id,
     } = this.props.item;
-    let claimed = status ? 'Yes' : 'No';
 
     return (
       <div>
@@ -26,12 +27,12 @@ class ItemCard extends Component {
         <div className="card-body">
           <h5 className="card-title">{title}</h5>
           <p className="card-text">
-            {/* Location: Enter Location Here <br /> */}
+            {/* Location: {`${city}, ${state}`} <br /> */}
             <br />
             {description} <br />
             Category: {category}
             <br />
-            Claimed: {claimed}
+            Claimed: {status ? 'Yes' : 'No'}
           </p>
         </div>
       </div>

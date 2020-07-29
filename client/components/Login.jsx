@@ -26,7 +26,7 @@ class Login extends Component {
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
                 placeholder="hi@theneighborhood.com"
-                name="userEmail"
+                name="email"
                 onChange={(e) => this.props.handleChange(e)}
               ></input>
               <small id="emailHelp" className="form-text text-muted">

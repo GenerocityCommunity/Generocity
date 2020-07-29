@@ -24,7 +24,7 @@ class EditItem extends Component {
                 className="form-control form-control-lg"
                 id="colFormLabelLg"
                 placeholder="Change Title"
-                name="itemTitle"
+                name="title"
                 onChange={(e) => this.props.handleChange(e)}
               ></input>
             </div>
@@ -40,7 +40,7 @@ class EditItem extends Component {
                 className="form-control"
                 id="colFormLabel"
                 placeholder="Revise Item Description"
-                name="itemDescription"
+                name="description"
                 onChange={(e) => this.props.handleChange(e)}
               ></input>
             </div>
@@ -58,7 +58,7 @@ class EditItem extends Component {
               <select
                 className="form-control"
                 id="exampleFormControlSelect1"
-                name="itemCategory"
+                name="category"
                 onChange={(e) => this.props.handleChange(e)}
               >
                 <option>Furniture</option>
@@ -93,7 +93,7 @@ class EditItem extends Component {
                 type="file"
                 className="custom-file-input"
                 id="inputGroupFile02"
-                name="itemImage"
+                name="image"
                 onChange={(e) => this.props.handleFileChange(e)}
               ></input>
               <label

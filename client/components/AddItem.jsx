@@ -23,7 +23,7 @@ class AddItem extends Component {
                 className="form-control form-control-lg"
                 id="colFormLabelLg"
                 placeholder="Enter Item Name"
-                name="itemTitle"
+                name="title"
                 onChange={(e) => this.props.handleChange(e)}
               ></input>
             </div>
@@ -39,7 +39,7 @@ class AddItem extends Component {
                 className="form-control"
                 id="colFormLabel"
                 placeholder="Enter Item Description"
-                name="itemDescription"
+                name="description"
                 x
                 onChange={(e) => this.props.handleChange(e)}
               ></input>
@@ -58,7 +58,7 @@ class AddItem extends Component {
               <select
                 className="form-control"
                 id="exampleFormControlSelect1"
-                name="itemCategory"
+                name="category"
                 onChange={(e) => this.props.handleChange(e)}
               >
                 <option>Select a Category</option>
@@ -96,14 +96,14 @@ class AddItem extends Component {
                 className="form-control form-control-lg"
                 id="colFormLabelLg"
                 placeholder="Image Here"
-                name="itemImage"
+                name="image"
                 onChange={(e) => this.props.handleFileChange(e)}
               ></input>
               {/* <input
                 type="text"
                 className="custom-file-input"
                 id="inputGroupFile02"
-                name="itemImage"
+                name="image"
                 onChange={(e) => this.props.handleFileChange(e)}
               ></input> */}
               {/* <label
