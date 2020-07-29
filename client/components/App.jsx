@@ -7,8 +7,6 @@ import Login from './Login.jsx';
 import Home from './Home.jsx';
 import Profile from './Profile.jsx';
 import AddItem from './AddItem.jsx';
-import Chat from './chat/Chat.jsx';
-import Messages from './chat/Messages.jsx';
 import { Route, Switch, NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
@@ -29,7 +27,6 @@ class App extends Component {
       userCity: '',
       userState: '',
       userZip: '',
-      msgRooms: ['Bridget', 'Scott'],
       /* State for a single item */
       itemTitle: '',
       itemDescription: '',
@@ -44,7 +41,6 @@ class App extends Component {
     this.handleSignUpSubmit = this.handleSignUpSubmit.bind(this);
     this.getAllItems = this.getAllItems.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.handleSendMessage = this.handleSendMessage.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
     // this.checkSession = this.checkSession.bind(this);
@@ -56,15 +52,7 @@ class App extends Component {
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-  /*--------- Send a message to another user from ItemCard button ------*/
-  // somewhere (maybe here) we need a POST request to update both users' 'msgRooms' array in DB
-  handleSendMessage(e) {
-    e.preventDefault();
-    const newUserMessages = [...this.state.msgRooms];
-    newUserMessages.push(`Owner of ${e.target.value}`);
-    this.setState({ msgRooms: newUserMessages })
-    this.props.history.push('/messages')
-  }
+
   /*----------- handle file change (image input) (AddItem)-----------------*/
 
   handleFileChange(e) {
@@ -126,7 +114,7 @@ class App extends Component {
       });
   }
 
- 
+
   /*--- POST request to /LOG-IN---- */
   handleLoginSubmit(e) {
     e.preventDefault();
@@ -264,12 +252,7 @@ class App extends Component {
                   Profile
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink to="/messages" className="nav-link">
-                  Messages
-                </NavLink>
-              </li>
-  
+
               <div id="filterBox">
                 <select
                   className="form-control"
@@ -317,7 +300,6 @@ class App extends Component {
                 userEmail={this.state.userEmail}
                 userAddress={this.state.userAddress}
                 userId={this.state.user_id}
-                sendMessage={this.handleSendMessage}
                 handleSubmit={this.handleSubmit}
                 handleFileChange={this.handleFileChange}
                 handleChange={this.handleChange}
@@ -367,30 +349,6 @@ class App extends Component {
                 userEmail={this.state.userEmail}
                 userFirstName={this.state.userFirstName}
                 userLastName={this.state.userLastName}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/chat"
-            render={(props) => (
-              <Chat
-                {...props}
-                allItems={this.state.allItems}
-                userEmail={this.state.userEmail}
-                userLocation={this.state.userZip}
-              />
-            )}
-          />
-
-          <Route
-            exact
-            path="/messages"
-            render={(props) => (
-              <Messages
-                {...props}
-                msgRooms={this.state.msgRooms}
-                userEmail={this.state.userEmail}
               />
             )}
           />

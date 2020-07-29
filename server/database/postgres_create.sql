@@ -1,4 +1,3 @@
-
 CREATE TABLE public.users (
 	"_id" serial NOT NULL,
 	"email" varchar UNIQUE NOT NULL,

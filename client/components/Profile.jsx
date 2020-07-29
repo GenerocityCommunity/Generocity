@@ -96,7 +96,6 @@ class Profile extends Component {
           <section className="card">
             <ItemCard
               item={item}
-              inProfile={true}
               name={item.itemTitle}
               userid={item.itemUserId}
               location={item.itemAddress}

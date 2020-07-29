@@ -8,6 +8,7 @@ ItemsController.getAllItems = (req, res, next) => {
   db.query(query, (err, data) => {
     if (err) {
       console.log('ERROR: ', err);
+      return next(err);
     }
     // if successful, query will return data.rows
     const { rows } = data;
