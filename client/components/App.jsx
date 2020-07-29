@@ -218,6 +218,7 @@ class App extends Component {
   }
 
   getCoordinates(position) {
+    console.log('position', position);
     this.setState({
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
