@@ -22,7 +22,7 @@ class SignUp extends Component {
                   className="form-control"
                   id="firstName"
                   placeholder="First Name"
-                  name="userFirstName"
+                  name="firstName"
                   onChange={(e) => this.props.handleChange(e)}
                 ></input>
               </div>
@@ -33,7 +33,7 @@ class SignUp extends Component {
                   className="form-control"
                   id="lastName"
                   placeholder="Last Name"
-                  name="userLastName"
+                  name="lastName"
                   onChange={(e) => this.props.handleChange(e)}
                 ></input>
               </div>
@@ -44,7 +44,7 @@ class SignUp extends Component {
                   className="form-control"
                   id="inputEmail4"
                   placeholder="Email"
-                  name="userEmail"
+                  name="email"
                   onChange={(e) => this.props.handleChange(e)}
                 ></input>
               </div>
@@ -67,7 +67,7 @@ class SignUp extends Component {
                 className="form-control"
                 id="inputAddress"
                 placeholder="1234 Main St"
-                name="userStreet"
+                name="street"
                 onChange={(e) => this.props.handleChange(e)}
               ></input>
             </div>
@@ -78,7 +78,7 @@ class SignUp extends Component {
                 className="form-control"
                 id="inputAddress2"
                 placeholder="Apartment, studio, or floor"
-                name="userStreet2"
+                name="street2"
                 onChange={(e) => this.props.handleChange(e)}
               ></input>
             </div>
@@ -89,7 +89,7 @@ class SignUp extends Component {
                   type="text"
                   className="form-control"
                   id="inputCity"
-                  name="userCity"
+                  name="city"
                   onChange={(e) => this.props.handleChange(e)}
                 ></input>
               </div>
@@ -110,7 +110,7 @@ class SignUp extends Component {
                   type="text"
                   className="form-control"
                   id="inputZip"
-                  name="userZip"
+                  name="zipCode"
                   onChange={(e) => this.props.handleChange(e)}
                 ></input>
               </div>
