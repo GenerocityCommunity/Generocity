@@ -43,6 +43,8 @@ CREATE TABLE public.items (
   "category" varchar NOT NULL,
   "status" BOOLEAN,
   "user_id" bigint NOT NULL,
+  "item_latitude" numeric,
+  "item_longitude" numeric,
     CONSTRAINT "items_pk" PRIMARY KEY ("_id")
 ) WITH (
   OIDS=FALSE
@@ -55,8 +57,6 @@ CREATE TABLE public.items (
  ALTER TABLE public.items ADD CONSTRAINT "items_fk0" FOREIGN KEY ("user_id") REFERENCES public.users("_id");
  ALTER TABLE public.sessions ADD FOREIGN KEY ("user_id") REFERENCES public.users("_id");
 
-
-
  INSERT INTO public.address VALUES (1, 92663, '123 daisy lane', 'oc', 'california', 37.4224764, -122.0842499);
  INSERT INTO public.address VALUES (2, 92663, '123 orchid lane', 'los angeles', 'california', 37.4224764, -122.0842499);
  INSERT INTO public.address VALUES (3, 92663, '123 lily lane', 'sb', 'california', 37.4224764, -122.0842499);
@@ -67,10 +67,10 @@ CREATE TABLE public.items (
  INSERT INTO public.users VALUES (3, 'mh@gmail.com', 'Michelle', 'Holland', 'helloworld', 500, 3);
  INSERT INTO public.users VALUES (4, 'sk@gmail.com', 'Serena', 'Kuo', 'helloworld',  500, 4);
 
- INSERT INTO public.items VALUES (1, 'fiddle leaf fig', 'lovely green addition to your home', 'image.url', 'home goods', FALSE, 1);
- INSERT INTO public.items VALUES (2, 'monstera leaf', 'lovely green addition to your home', 'image.url', 'home goods', FALSE, 1);
- INSERT INTO public.items VALUES (3, 'bamboo palm', 'lovely green addition to your home', 'image.url', 'home goods', FALSE, 1);
- INSERT INTO public.items VALUES (4, 'orchid', 'lovely green addition to your home', 'image.url', 'home goods', FALSE, 1);
+ INSERT INTO public.items VALUES (1, 'fiddle leaf fig', 'lovely green addition to your home', 'image.url', 'home goods', FALSE, 1, 37.4224764, -122.0842499);
+ INSERT INTO public.items VALUES (2, 'monstera leaf', 'lovely green addition to your home', 'image.url', 'home goods', FALSE, 1, 37.4224764, -122.0842499);
+ INSERT INTO public.items VALUES (3, 'bamboo palm', 'lovely green addition to your home', 'image.url', 'home goods', FALSE, 1, 37.4224764, -122.0842499);
+ INSERT INTO public.items VALUES (4, 'orchid', 'lovely green addition to your home', 'image.url', 'home goods', FALSE, 1, 37.4224764, -122.0842499);
 
  INSERT INTO public.sessions VALUES (1, 'cookie', '2020-07-27', 1, 500000);
 

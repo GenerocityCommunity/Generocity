@@ -14,29 +14,55 @@ ItemsController.getAllItems = (req, res, next) => {
     // if successful, query will return data.rows
     const { rows } = data;
     res.locals.items = rows;
+    console.log('res.locals.items', res.locals.items);
     return next();
   });
 };
 
 ItemsController.postItem = (req, res, next) => {
   const { title, description, image, category, status, user_id } = req.body;
-  console.log('user_id in POST ITEM middleware', user_id);
+  let item_latitude;
+  let item_longitude;
 
-  const query = {
-    text: `INSERT INTO public.items(title, description, image, category, status, user_id)
-           VALUES($1, $2, $3, $4, $5, $6)
-           RETURNING *`,
-    values: [title, description, image, category, status, user_id],
-  };
+  // query db to add latitude and longitude to each item
+  const queryForCoords = `
+  SELECT i._id as item_id, i.title, a.latitude, a.longitude
+  FROM public.items i
+  JOIN public.users u ON i.user_id = u._id
+  JOIN public.address a ON u.address_id = a._id
+  WHERE u._id = ${user_id}
+  `
 
-  db.query(query, (err, data) => {
+  db.query(queryForCoords, (err, data) => {
     if (err) {
       console.log('ERROR: ', err);
-      return next(err);
+      return next(err);;
     }
-    console.log(`${title} successfully posted to database.`);
-    return next();
-  });
+    // log latitude and longitude and insert into create item below
+    item_latitude = data.rows[0].latitude
+    item_longitude = data.rows[0].longitude
+
+    // after retrieving item longitude and latitude from joining address and users table
+    // create new item in db with item latitude and item longitude values
+    const query = {
+      text: `INSERT INTO public.items(title, description, image, category, status, user_id, item_latitude, item_longitude)
+               VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+               RETURNING *`,
+      values: [title, description, image, category, status, user_id, item_latitude, item_longitude],
+    };
+
+    db.query(query, (err, data) => {
+      if (err) {
+        console.log('ERROR: ', err);
+        return next(err);
+      }
+      console.log(`${title} successfully posted to database.`);
+      return next();
+    });
+
+
+  })
+
 };
 
 ItemsController.editUserItem = (req, res, next) => {

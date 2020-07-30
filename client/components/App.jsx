@@ -125,6 +125,7 @@ class App extends Component {
         res.json();
         const newItems = this.state.allItems.slice();
         newItems.push(body);
+        console.log('newItems', newItems);
         this.setState({ allItems: newItems });
       })
       .catch((err) => {
