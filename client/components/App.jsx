@@ -7,6 +7,7 @@ import Login from './Login.jsx';
 import Home from './Home.jsx';
 import Profile from './Profile.jsx';
 import AddItem from './AddItem.jsx';
+import ItemDetails from './ItemDetails.jsx'
 import { Route, Switch, NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import Navbar from './Navbar';
@@ -379,6 +380,10 @@ class App extends Component {
             exact
             path="/profile"
             render={(props) => <Profile {...props} info={this.state} />}
+          />
+          <Route
+            path="/itemDetails"
+            render={(props) => <ItemDetails {...props} info={this.state} />}
           />
         </Switch>
       </div>
