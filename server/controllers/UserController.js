@@ -99,7 +99,8 @@ UserController.createUser = async (req, res, next) => {
 UserController.verifyUser = async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    const findUser = `SELECT _id, email, password
+    // must have quotations for some reason
+    const findUser = `SELECT _id, email, password, points, "firstName", "lastName"
                       FROM users
                       WHERE (email = $1);`;
     const queryParams = [email];
@@ -107,14 +108,15 @@ UserController.verifyUser = async (req, res, next) => {
     const userData = await db.query(findUser, queryParams);
     const user = userData.rows[0];
 
+    res.locals.loggedIn = false;
     bcrypt.compare(password, user.password, function (err, result) {
       if (err) {
         return next(err);
       }
       if (result === true) {
-        console.log(
-          '/ * * * * * * * * * * * * * * USER SUCCESSFULLY LOGGED IN * * * * * * * * * * * * * * /'
-        );
+        console.log('/ * * * * * USER SUCCESSFULLY LOGGED IN * * * * * /');
+        res.locals.loggedIn = true;
+        res.locals.user = user;
         return next();
       }
       if (result === false) {
