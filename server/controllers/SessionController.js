@@ -15,10 +15,10 @@ SessionController.startSession = async (req, res, next) => {
 
   try {
     const session = await db.query(createSessionQuery);
-    console.log('session created successfully', session);
+    // console.log('session created successfully', session);
     return next();
   } catch (e) {
-    return next({ log: 'Invalid startSession query' });
+    return next({ log: 'Invalid startSession query', error: e });
   }
 };
 

@@ -143,12 +143,13 @@ class App extends Component {
       },
       body: JSON.stringify(body),
     })
-      .then((res) => {
-        console.log('res in /log-in', res);
-        res.json();
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('data: ', data);
+        // res.json();
 
-        this.setState({ isLoggedIn: true, password: '' });
-        this.props.history.push('/');
+        // this.setState({ isLoggedIn: true, password: '' });
+        // this.props.history.push('/');
       })
       .catch((err) => {
         console.log('/LOG-IN Post error: ', err);

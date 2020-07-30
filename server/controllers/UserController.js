@@ -91,7 +91,7 @@ UserController.verifyUser = async (req, res, next) => {
 
     const userData = await db.query(findUser, queryParams);
     const user = userData.rows[0];
-
+    res.locals.loggedIn = false;
     bcrypt.compare(password, user.password, function (err, result) {
       if (err) {
         return next(err);
@@ -100,6 +100,8 @@ UserController.verifyUser = async (req, res, next) => {
         console.log(
           '/ * * * * * * * * * * * * * * USER SUCCESSFULLY LOGGED IN * * * * * * * * * * * * * * /'
         );
+        res.locals.loggedIn = true;
+        res.locals.user = user;
         return next();
       }
       if (result === false) {

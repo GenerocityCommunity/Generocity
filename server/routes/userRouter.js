@@ -8,7 +8,7 @@ const SessionController = require('../controllers/SessionController.js');
 const router = express.Router();
 
 // GET all items that user has posted
-router.get('/:user_id', UserController.getUserItems, (req, res, next) => {
+router.get('/:user_id', UserController.getUserItems, (req, res) => {
   console.log('res.locals.items', res.locals.items);
   res.status(200).json({ allItems: res.locals.items });
 });
@@ -19,7 +19,7 @@ router.post(
   UserController.createUser,
   CookieController.setSSIDCookie,
   SessionController.startSession,
-  (req, res, next) => {
+  (req, res) => {
     return res.status(200).json({ id: res.locals.ssid });
   }
 );
@@ -30,13 +30,14 @@ router.post(
   UserController.verifyUser,
   CookieController.setSSIDCookie,
   SessionController.startSession,
-  (req, res, next) => {
-    return res.status(200).json({ isLoggedIn: true });
+  (req, res) => {
+    return res.status(200).send('SHOW UP');
+    // { loggedIn: res.locals.loggedIn, user: res.locals.user }
   }
 );
 
 // check for session on componentDidMount
-router.get('/checksession', SessionController.isLoggedIn, (req, res, next) => {
+router.get('/checksession', SessionController.isLoggedIn, (req, res) => {
   // 200 response will provide client with user email
   return res.status(200).json({ email: res.locals.email });
 });
