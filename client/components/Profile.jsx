@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-
+import AddItem from './AddItem';
 import ItemCard from './ItemCard.jsx';
 import EditItem from './EditItem';
 import EditItemModal from './EditItemModal.jsx';
@@ -214,15 +214,85 @@ class Profile extends Component {
           </div >
         </div > */}
 
-        <section className="userProfile">
-          <h4>Welcome to Your Profile, {firstName}!</h4>
-          <p>
-            Name: {firstName} {lastName}
-            <br />
-            User Email: {email}
-          </p>
-          {/* if latitude and longitude do not exist in props, then render nothing
+        <section className="innerNav">
+          <section className="userProfileTop">
+            <h4>Welcome to Your Profile, {firstName}!</h4>
+            <p>
+              Name: {firstName} {lastName}
+              <br />
+              User Email: {email}
+            </p>
+          </section>
+          <section className="rightNav">
+            {/* <!-- Button trigger modal --> */}
+            <button
+              type="button"
+              className="btn btn-dark addItemBtn"
+              data-toggle="modal"
+              data-target="#addItemModal"
+            >
+              Add Item
+            </button>
+          </section>
+        </section>
+        {/* <!!-- Modal Button - Display Content is in AddItem.jsx --!!> */}
+        <div
+          className="modal fade"
+          id="addItemModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalScrollableTitle"
+          aria-hidden="true"
+        >
+          <div
+            className="modal-dialog modal-dialog-centered modal-lg"
+            role="document"
+          >
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalScrollableTitle">
+                  Add an Item
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <AddItem
+                  handleChange={this.props.handleChange}
+                  handleSubmit={this.props.handleSubmit}
+                  handleFileChange={this.props.handleFileChange}
+                />
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  data-dismiss="modal"
+                  onClick={(e) => this.props.handleSubmit(e)}
+                >
+                  Add Item
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* if latitude and longitude do not exist in props, then render nothing
       if it does exist, then render map from Google API */}
+        <br />
+        <section className="leftNav" className="userProfile">
           {latitude && longitude ? <img src={mapSrc} alt="" /> : null}
           <br />
           <br />

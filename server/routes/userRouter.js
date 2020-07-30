@@ -20,8 +20,11 @@ router.post(
   CookieController.setSSIDCookie,
   SessionController.startSession,
   (req, res, next) => {
-    return res.status(200).json({ id: res.locals.ssid });
-  });
+    return res
+      .status(200)
+      .json({ user_id: res.locals.newUserId, id: res.locals.ssid });
+  }
+);
 
 // handle login requests
 router.post(

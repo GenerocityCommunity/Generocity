@@ -18,7 +18,7 @@ SessionController.startSession = async (req, res, next) => {
     console.log(`SessionController: Created session with ssid ${res.locals.ssid} successfully`);
     return next();
   } catch (e) {
-    return next({ log: 'Invalid startSession query' });
+    return next({ log: 'Invalid startSession query', error: e });
   }
 };
 
@@ -105,30 +105,3 @@ SessionController.endSession = async (req, res, next) => {
 };
 
 module.exports = SessionController;
-
-// // // check whether ssid exists in database
-// // Session.findOne({ cookieId: ssid }, (err, data) => {
-// //   if (err) return next({ log: 'Error finding session in DB with provided SSID' });
-// //   // no session found, redirect to signup
-// //   // console.log('return data in isLoggedIn/session.findOne:', data)
-// //   if (data === null)
-// //     return next({ log: 'Cannot find session from provided SSID - user may be logged out' });
-// //   // if session is found, find user in DB
-// //   User.findById(ssid, (err, found) => {
-// //     if (err) return next({ log: 'Error finding USER with provided SSID' });
-// //     // console.log('User is logged in. User data: ', found);
-// //     // store user email on res.locals.email
-// //     res.locals.email = found.email;
-// //     // move onto next middleware - which will send 200 and res.locals to client
-// //     return next();
-// //   });
-// // });
-
-// // // set cookieID to user ID
-// // console.log('in startSession res.locals.ssid', res.locals.ssid);
-// // Session.create({ cookieId: res.locals.ssid }, (err, data) => {
-// //   if (err) return next({ log: 'Invalid startSession query' });
-// //   console.log('Session data in startSession: ', data);
-// //   return next();
-// // });
-
