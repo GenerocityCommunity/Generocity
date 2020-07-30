@@ -52,6 +52,8 @@ class App extends Component {
     /* Bind for Geolocation Feature */
     this.getLocation = this.getLocation.bind(this);
     this.getCoordinates = this.getCoordinates.bind(this);
+    // Logout
+    this.handleLogoutSubmit = this.handleLogoutSubmit.bind(this);
   }
 
   /*----------- ComponentDidMount calls initial GET for all items -----------------*/
@@ -80,6 +82,7 @@ class App extends Component {
 
   handleFilterChange(e) {
     e.preventDefault();
+    console.log('handle filter change', e.target.value);
     const categoryName = e.target.value;
     const url = '/filter/category/';
     if (!categoryName) {
@@ -88,6 +91,7 @@ class App extends Component {
     fetch(path.resolve(url, categoryName))
       .then((res) => res.json())
       .then((res) => {
+        console.log('res items', res);
         this.setState({ allItems: res.items });
       })
       .catch((err) => {
@@ -154,6 +158,13 @@ class App extends Component {
         console.log('/LOG-IN Post error: ', err);
         this.setState({ email: '', password: '' });
       });
+  }
+
+  /*--- POST request to /LOG-OUT---- */
+  handleLogoutSubmit() {
+    this.setState({
+      isLoggedIn: false,
+    });
   }
 
   /*----------------POST request To SIGNUP-------------------*/
@@ -277,7 +288,11 @@ class App extends Component {
   render() {
     return (
       <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-        <Navbar handleFilterChange={this.handleFilterChange} />
+        <Navbar
+          handleFilterChange={this.handleFilterChange}
+          handleLogoutSubmit={this.handleLogoutSubmit}
+          isLoggedIn={this.state.isLoggedIn}
+        />
 
         <Switch>
           <Route
