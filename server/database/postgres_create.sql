@@ -17,6 +17,8 @@ CREATE TABLE public.address (
   "street" varchar NOT NULL,
   "city" varchar NOT NULL,
   "state" varchar NOT NULL,
+  "latitude" numeric,
+  "longitude"numeric,
   CONSTRAINT "address_pk" PRIMARY KEY ("_id")
 ) WITH (
   OIDS=FALSE
@@ -55,10 +57,10 @@ CREATE TABLE public.items (
 
 
 
- INSERT INTO public.address VALUES (1, 92663, '123 daisy lane', 'oc', 'california');
- INSERT INTO public.address VALUES (2, 92663, '123 orchid lane', 'los angeles', 'california');
- INSERT INTO public.address VALUES (3, 92663, '123 lily lane', 'sb', 'california');
- INSERT INTO public.address VALUES (4, 92663, '123 basil lane', 'nyc', 'ny');
+ INSERT INTO public.address VALUES (1, 92663, '123 daisy lane', 'oc', 'california', 37.4224764, -122.0842499);
+ INSERT INTO public.address VALUES (2, 92663, '123 orchid lane', 'los angeles', 'california', 37.4224764, -122.0842499);
+ INSERT INTO public.address VALUES (3, 92663, '123 lily lane', 'sb', 'california', 37.4224764, -122.0842499);
+ INSERT INTO public.address VALUES (4, 92663, '123 basil lane', 'nyc', 'ny', 37.4224764, -122.0842499);
 
  INSERT INTO public.users VALUES (1, 'cc2368@cornell.edu', 'Catherine', 'Chiu', 'helloworld', 500, 1);
  INSERT INTO public.users VALUES (2, 'jm@gmail.com', 'John', 'Madrigal', 'helloworld', 500, 2);
