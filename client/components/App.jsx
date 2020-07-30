@@ -7,16 +7,18 @@ import Login from './Login.jsx';
 import Home from './Home.jsx';
 import Profile from './Profile.jsx';
 import AddItem from './AddItem.jsx';
+import ItemDetails from './ItemDetails.jsx'
 import { Route, Switch, NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import Navbar from './Navbar';
+import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       // store most state in App component, make available to child components as props
-      isloggedIn: false,
+      isLoggedIn: false,
       allItems: [], // (each item is an object)
       /* State for Current User */
       email: 'dave@gmail.com',
@@ -52,6 +54,8 @@ class App extends Component {
     /* Bind for Geolocation Feature */
     this.getLocation = this.getLocation.bind(this);
     this.getCoordinates = this.getCoordinates.bind(this);
+    // Logout
+    this.handleLogoutSubmit = this.handleLogoutSubmit.bind(this);
   }
 
   /*----------- ComponentDidMount calls initial GET for all items -----------------*/
@@ -80,6 +84,7 @@ class App extends Component {
 
   handleFilterChange(e) {
     e.preventDefault();
+    console.log('handle filter change', e.target.value);
     const categoryName = e.target.value;
     const url = '/filter/category/';
     if (!categoryName) {
@@ -88,6 +93,7 @@ class App extends Component {
     fetch(path.resolve(url, categoryName))
       .then((res) => res.json())
       .then((res) => {
+        console.log('res items', res);
         this.setState({ allItems: res.items });
       })
       .catch((err) => {
@@ -98,7 +104,9 @@ class App extends Component {
   /*---- POST request to add item to server---- */
   handleSubmit(e) {
     e.preventDefault();
-
+    // check if user_id in state has been updated after signing up and logging in
+    // if it is not updated, geocoding for each item will not work
+    // console.log('this.state.user_id', this.state.user_id);
     const { title, description, category, image, status, user_id } = this.state;
 
     const body = {
@@ -122,7 +130,9 @@ class App extends Component {
         res.json();
         const newItems = this.state.allItems.slice();
         newItems.push(body);
+        console.log('newItems', newItems);
         this.setState({ allItems: newItems });
+        // add functionality to RELOAD page so the link is not undefined
       })
       .catch((err) => {
         console.log('AddItem Post error: ', err);
@@ -157,6 +167,13 @@ class App extends Component {
       });
   }
 
+  /*--- POST request to /LOG-OUT---- */
+  handleLogoutSubmit() {
+    this.setState({
+      isLoggedIn: false,
+    });
+  }
+
   /*----------------POST request To SIGNUP-------------------*/
   handleSignUpSubmit(e) {
     e.preventDefault();
@@ -167,42 +184,90 @@ class App extends Component {
       password,
       email,
       street,
-      state,
       city,
+      state,
       zipCode,
     } = this.state;
 
-    const body = {
-      email,
-      password,
-      firstName,
-      lastName,
-      zipCode,
-      street,
-      city,
-      state,
-    };
+    // Query Google Maps Geocode API for latitude & longitude
+    // variable that stores url to fetch lat & long from user inputed address
+    let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json`
 
-    fetch('/user/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'Application/JSON',
-      },
-      body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      // TODO: setState with isLoggedIn, clear pw
-      // return to home page
-      .then((res) => {
-        console.log('res', res);
-        this.props.history.push('/');
-        // this.setState({})
+    let geocodeLatitude;
+    let geocodeLongitude;
+
+    // MUST use arrow function here, or else when we setState in nested async function
+    // 'this' will be undefined
+    const geocode = () => {
+      // let location = '22 Main St Boston MA'
+      let location = `${street} ${city} ${state}}`
+      axios.get(geocodeURL, {
+        params: {
+          address: location,
+          key: process.env.GOOGLE_API_KEY,
+        }
       })
-      .catch((err) => {
-        console.log('AddItem Post error: ', err);
-        // todo - clear all fields with setState
-        this.setState({});
-      });
+        .then((res) => {
+          console.log('response from Geocode API', res);
+          geocodeLatitude = res.data.results[0].geometry.location.lat
+          geocodeLongitude = res.data.results[0].geometry.location.lng
+          console.log('lat & long', geocodeLatitude, geocodeLongitude);
+
+
+          // Request body for POST request to sign up user
+          const body = {
+            email,
+            password,
+            firstName,
+            lastName,
+            zipCode,
+            street,
+            city,
+            state,
+            latitude: geocodeLatitude,
+            longitude: geocodeLongitude,
+          };
+
+          // POST request to backend to add user info to db
+          fetch('/user/signup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'Application/JSON',
+            },
+            body: JSON.stringify(body),
+          })
+            .then((res) => res.json())
+            // TODO: setState with isLoggedIn, clear pw
+            // return to home page
+            .then((res) => {
+              console.log('res', res)
+              console.log('res.user_id', res.user_id)
+              // set state with new values for user_id and toggle isLoggedIn to true
+              console.log('this', this);
+              this.setState({
+                user_id: res.user_id,
+                isLoggedIn: true,
+              })
+              console.log('new user_id after setting state', this.state.user_id);
+              // this.props.history.push('/');
+              redirect();
+            })
+            .catch((err) => {
+              console.log('AddItem Post error: ', err);
+            });
+        })
+        .catch((err) => {
+          console.log('Error from Geocode function in HandleSignUpSubmit in App.jsx', err);
+        })
+    }
+
+    // call geocode() to get lat & long of user who signed up
+    geocode();
+
+    // storing invocation of this.props.history.push('/') so that this.props is accessible
+    // within the nested async POST to '/user/signup'
+    let redirect = () => this.props.history.push('/')
+
   }
 
   /*----------------Geolocation-------------------*/
@@ -246,6 +311,8 @@ class App extends Component {
     }
   }
 
+  /*----------------Geocoding (getting lat & long coords from Google API-------------------*/
+
   // ------- Sessions Authentication - called in componentDidMount -------
   // checkSession() {
   //   fetch('/api/checksession')
@@ -278,7 +345,11 @@ class App extends Component {
   render() {
     return (
       <div className="backgroundColor" style={{ backgroundColor: '#FDFDFD' }}>
-        <Navbar handleFilterChange={this.handleFilterChange} />
+        <Navbar
+          handleFilterChange={this.handleFilterChange}
+          handleLogoutSubmit={this.handleLogoutSubmit}
+          isLoggedIn={this.state.isLoggedIn}
+        />
 
         <Switch>
           <Route
@@ -325,7 +396,20 @@ class App extends Component {
           <Route
             exact
             path="/profile"
-            render={(props) => <Profile {...props} info={this.state} />}
+            render={(props) => (
+              <Profile
+                {...props}
+                info={this.state}
+                handleSubmit={this.handleSubmit}
+                handleFileChange={this.handleFileChange}
+                handleChange={this.handleChange}
+                handleFilterChange={this.handleFilterChange}
+              />
+            )}
+          />
+          <Route
+            path="/itemDetails/:item_id"
+            render={(props) => <ItemDetails {...props} info={this.state} />}
           />
         </Switch>
       </div>
