@@ -19,13 +19,10 @@ router.post(
   UserController.createUser,
   CookieController.setSSIDCookie,
   SessionController.startSession,
-<<<<<<< HEAD
-  (req, res) => {
-    return res.status(200).json({ id: res.locals.ssid });
-=======
   (req, res, next) => {
-    return res.status(200).json({ user_id: res.locals.newUserId, id: res.locals.ssid });
->>>>>>> cd3f55de51530bbda2048a5363b68788e5b3d2d9
+    return res
+      .status(200)
+      .json({ user_id: res.locals.newUserId, id: res.locals.ssid });
   }
 );
 
