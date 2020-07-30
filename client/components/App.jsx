@@ -339,7 +339,16 @@ class App extends Component {
           <Route
             exact
             path="/profile"
-            render={(props) => <Profile {...props} info={this.state} />}
+            render={(props) => (
+              <Profile
+                {...props}
+                info={this.state}
+                handleSubmit={this.handleSubmit}
+                handleFileChange={this.handleFileChange}
+                handleChange={this.handleChange}
+                handleFilterChange={this.handleFilterChange}
+              />
+            )}
           />
         </Switch>
       </div>
