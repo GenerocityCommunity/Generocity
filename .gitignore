@@ -4,3 +4,4 @@ package-lock.json
 npm-debug.log
 .env
 dist
+pull-request.md
