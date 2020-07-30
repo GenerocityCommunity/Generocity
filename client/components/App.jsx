@@ -128,6 +128,7 @@ class App extends Component {
         newItems.push(body);
         console.log('newItems', newItems);
         this.setState({ allItems: newItems });
+        // add functionality to RELOAD page so the link is not undefined
       })
       .catch((err) => {
         console.log('AddItem Post error: ', err);

@@ -67,10 +67,10 @@ CREATE TABLE public.items (
  INSERT INTO public.users VALUES (3, 'mh@gmail.com', 'Michelle', 'Holland', 'helloworld', 500, 3);
  INSERT INTO public.users VALUES (4, 'sk@gmail.com', 'Serena', 'Kuo', 'helloworld',  500, 4);
 
- INSERT INTO public.items VALUES (1, 'fiddle leaf fig', 'lovely green addition to your home', 'image.url', 'home goods', FALSE, 1, 37.4224764, -122.0842499);
- INSERT INTO public.items VALUES (2, 'monstera leaf', 'lovely green addition to your home', 'image.url', 'home goods', FALSE, 1, 37.4224764, -122.0842499);
- INSERT INTO public.items VALUES (3, 'bamboo palm', 'lovely green addition to your home', 'image.url', 'home goods', FALSE, 1, 37.4224764, -122.0842499);
- INSERT INTO public.items VALUES (4, 'orchid', 'lovely green addition to your home', 'image.url', 'home goods', FALSE, 1, 37.4224764, -122.0842499);
+ INSERT INTO public.items VALUES (1, 'fiddle leaf fig', 'lovely green addition to your home', 'https://cdn.shopify.com/s/files/1/0013/3529/6118/products/Kent-48-3265.048-WH_Fiddle-Leaf-Fig-Tree-14.jpg?v=1590447682', 'home goods', FALSE, 1, 37.4224764, -122.0842499);
+ INSERT INTO public.items VALUES (2, 'monstera leaf', 'lovely green addition to your home', 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_monstera_variant_medium_grant_cream_54108884-3d3d-44f4-9c34-d741345067ab_1200x.jpg?v=1589821773', 'home goods', FALSE, 1, 37.4224764, -122.0842499);
+ INSERT INTO public.items VALUES (3, 'bamboo palm', 'lovely green addition to your home', 'https://media1.popsugar-assets.com/files/thumbor/McrVxuoObTXB5p7BSHfDCdoQotY/fit-in/2048xorig/filters:format_auto-!!-:strip_icc-!!-/2020/05/06/738/n/1922794/8c6c0293eb07c93e_netimg20N8zS/i/Potted-Bamboo-Palm-Indoor-Plant.jpg', 'home goods', FALSE, 1, 37.4224764, -122.0842499);
+ INSERT INTO public.items VALUES (4, 'orchid', 'lovely green addition to your home', 'https://bagoys.imgix.net/images/itemVariation/Screen-Shot-2013-04-09-at-41516-PM-18092864422.png?auto=format&w=375&h=450&fit=crop', 'home goods', FALSE, 1, 37.4224764, -122.0842499);
 
  INSERT INTO public.sessions VALUES (1, 'cookie', '2020-07-27', 1, 500000);
 

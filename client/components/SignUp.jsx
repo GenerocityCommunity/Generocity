@@ -104,6 +104,7 @@ class SignUp extends Component {
                   <option>CA</option>
                   <option>NY</option>
                   <option>MA</option>
+                  <option>NJ</option>
                 </select>
               </div>
               <div className="form-group col-md-2">
@@ -125,7 +126,7 @@ class SignUp extends Component {
                   id="gridCheck"
                 ></input>
                 <label className="form-check-label" for="gridCheck">
-                  Check me out
+                  Remember me
                 </label>
               </div>
             </div>

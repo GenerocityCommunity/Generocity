@@ -26,9 +26,8 @@ ItemsController.postItem = (req, res, next) => {
 
   // query db to add latitude and longitude to each item
   const queryForCoords = `
-  SELECT i._id as item_id, i.title, a.latitude, a.longitude
-  FROM public.items i
-  JOIN public.users u ON i.user_id = u._id
+  SELECT u._id as user_id, a._id as address_id, a.latitude, a.longitude, u."firstName", u.email
+  FROM public.users u
   JOIN public.address a ON u.address_id = a._id
   WHERE u._id = ${user_id}
   `
@@ -59,8 +58,6 @@ ItemsController.postItem = (req, res, next) => {
       console.log(`${title} successfully posted to database.`);
       return next();
     });
-
-
   })
 
 };
