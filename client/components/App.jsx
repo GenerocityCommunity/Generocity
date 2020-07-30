@@ -7,11 +7,7 @@ import Login from './Login.jsx';
 import Home from './Home.jsx';
 import Profile from './Profile.jsx';
 import AddItem from './AddItem.jsx';
-<<<<<<< HEAD
-import ItemDetails from './ItemDetails.jsx'
-=======
 import ItemDetails from './ItemDetails.jsx';
->>>>>>> 51aef2193490a008df47c8849cccc51aa9fb9266
 import { Route, Switch, NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import Navbar from './Navbar';
@@ -208,78 +204,6 @@ class App extends Component {
 
     // Query Google Maps Geocode API for latitude & longitude
     // variable that stores url to fetch lat & long from user inputed address
-<<<<<<< HEAD
-    let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json`
-
-    let geocodeLatitude;
-    let geocodeLongitude;
-
-    // MUST use arrow function here, or else when we setState in nested async function
-    // 'this' will be undefined
-    const geocode = () => {
-      // let location = '22 Main St Boston MA'
-      let location = `${street} ${city} ${state}}`
-      axios.get(geocodeURL, {
-        params: {
-          address: location,
-          key: process.env.GOOGLE_API_KEY,
-        }
-      })
-        .then((res) => {
-          console.log('response from Geocode API', res);
-          geocodeLatitude = res.data.results[0].geometry.location.lat
-          geocodeLongitude = res.data.results[0].geometry.location.lng
-          console.log('lat & long', geocodeLatitude, geocodeLongitude);
-
-
-          // Request body for POST request to sign up user
-          const body = {
-            email,
-            password,
-            firstName,
-            lastName,
-            zipCode,
-            street,
-            city,
-            state,
-            latitude: geocodeLatitude,
-            longitude: geocodeLongitude,
-          };
-
-          // POST request to backend to add user info to db
-          fetch('/user/signup', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'Application/JSON',
-            },
-            body: JSON.stringify(body),
-          })
-            .then((res) => res.json())
-            // TODO: setState with isLoggedIn, clear pw
-            // return to home page
-            .then((res) => {
-              console.log('res', res)
-              console.log('res.user_id', res.user_id)
-              // set state with new values for user_id and toggle isLoggedIn to true
-              console.log('this', this);
-              this.setState({
-                user_id: res.user_id,
-                isLoggedIn: true,
-              })
-              console.log('new user_id after setting state', this.state.user_id);
-              // this.props.history.push('/');
-              redirect();
-            })
-            .catch((err) => {
-              console.log('AddItem Post error: ', err);
-            });
-        })
-        .catch((err) => {
-          console.log('Error from Geocode function in HandleSignUpSubmit in App.jsx', err);
-        })
-    }
-
-=======
     let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json`;
 
     let geocodeLatitude;
@@ -356,18 +280,12 @@ class App extends Component {
         });
     };
 
->>>>>>> 51aef2193490a008df47c8849cccc51aa9fb9266
     // call geocode() to get lat & long of user who signed up
     geocode();
 
     // storing invocation of this.props.history.push('/') so that this.props is accessible
     // within the nested async POST to '/user/signup'
-<<<<<<< HEAD
-    let redirect = () => this.props.history.push('/')
-
-=======
     let redirect = () => this.props.history.push('/');
->>>>>>> 51aef2193490a008df47c8849cccc51aa9fb9266
   }
 
   /*----------------Geolocation-------------------*/
