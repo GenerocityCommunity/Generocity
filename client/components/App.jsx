@@ -156,8 +156,10 @@ class App extends Component {
       .then((res) => res.json())
       .then((data) => {
         if (data.log || data.error) {
-          console.log('error: ', data.log, '\n', data.error);
           // show a message that describes error
+          document.getElementById(
+            'bad-login-message'
+          ).innerHTML = `<span>${data.log}</span>`;
         } else {
           console.log(data);
           const { isLoggedIn } = data;

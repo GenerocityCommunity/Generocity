@@ -51,6 +51,10 @@ class Login extends Component {
             >
               Get connected!
             </button>
+            <div
+              id="bad-login-message"
+              style={{ textAlign: 'center', marginTop: '30px', color: 'red' }}
+            ></div>
           </form>
         </div>
         <div className="row" style={{ height: '20vh' }}></div>
