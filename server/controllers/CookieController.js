@@ -52,8 +52,9 @@ CookieController.setSSIDCookie = async (req, res, next) => {
 
         console.log(`hashed session ID: ${hashedSessionId}`);
 
-        res.cookie('ssid', hashedSessionId, { httpOnly: true });
+        res.cookie('ssid', hashedSessionId, { httpOnly: true, maxAge: 500000 });
         res.locals.ssid = hashedSessionId;
+        res.locals.userId = user._id;
         return next();
       });
     }
