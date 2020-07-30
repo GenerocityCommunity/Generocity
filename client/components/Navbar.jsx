@@ -45,7 +45,8 @@ const Navbar = (props) => {
                   props.handleFilterChange(e);
                 }}
               >
-                <option>All Items</option>
+                <option value="AllItems">All Items</option>
+                <option value="home goods">Home Goods</option>
                 <option value="Appliances">Appliances</option>
                 <option value="Plants">Plants</option>
                 <option value="Sports">Sports</option>
@@ -117,8 +118,8 @@ const Navbar = (props) => {
                   props.handleFilterChange(e);
                 }}
               >
-                <option>All Items</option>
-
+                <option value="AllItems">All Items</option>
+                <option value="home goods">Home Goods</option>
                 <option value="Appliances">Appliances</option>
                 <option value="Plants">Plants</option>
                 <option value="Sports">Sports</option>
