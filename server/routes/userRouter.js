@@ -35,7 +35,7 @@ router.post(
   (req, res) => {
     return res
       .status(200)
-      .json({ user: res.locals.user, isloggedIn: res.locals.loggedIn });
+      .json({ user: res.locals.user, isLoggedIn: res.locals.loggedIn });
   }
 );
 
