@@ -30,11 +30,12 @@ router.post(
 router.post(
   '/login',
   UserController.verifyUser,
-  CookieController.setSSIDCookie,
-  SessionController.startSession,
+  // CookieController.setSSIDCookie,
+  // SessionController.startSession,
   (req, res) => {
-    return res.status(200).send('SHOW UP');
-    // { loggedIn: res.locals.loggedIn, user: res.locals.user }
+    return res
+      .status(200)
+      .json({ user: res.locals.user, isLoggedIn: res.locals.loggedIn });
   }
 );
 
