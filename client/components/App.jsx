@@ -16,7 +16,7 @@ class App extends Component {
     super(props);
     this.state = {
       // store most state in App component, make available to child components as props
-      isloggedIn: false,
+      isLoggedIn: false,
       allItems: [], // (each item is an object)
       /* State for Current User */
       email: 'dave@gmail.com',
