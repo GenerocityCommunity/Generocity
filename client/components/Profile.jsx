@@ -219,7 +219,7 @@ class Profile extends Component {
           <p>
             Name: {firstName} {lastName}
             <br />
-            User Email: {email}
+            Email: {email}
           </p>
           {/* if latitude and longitude do not exist in props, then render nothing
       if it does exist, then render map from Google API */}
