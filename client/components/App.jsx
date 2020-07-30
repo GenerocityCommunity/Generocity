@@ -145,11 +145,24 @@ class App extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('data: ', data);
-        // res.json();
+        if (data.log || data.error) {
+          console.log('there is an error');
+          // show a message that describes error
+        } else {
+          console.log(data);
+          const { isloggedIn } = data;
 
-        // this.setState({ isLoggedIn: true, password: '' });
-        // this.props.history.push('/');
+          this.setState({
+            isloggedIn,
+            password: '',
+            email,
+            // ID must be a string to not break <Profile />'s path.resolve
+            user_id: data.user._id.toString(),
+            firstName: data.user.firstName,
+            lastName: data.user.lastName,
+          });
+          this.props.history.push('/');
+        }
       })
       .catch((err) => {
         console.log('/LOG-IN Post error: ', err);
