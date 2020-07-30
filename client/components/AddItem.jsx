@@ -9,8 +9,6 @@ class AddItem extends Component {
   render() {
     return (
       <div>
-        Hi from AddItem!
-        {/* item details input */}
         <form>
           {/** ------- Item Title -------- */}
           <div className="form-group row">
@@ -22,7 +20,7 @@ class AddItem extends Component {
                 type="email"
                 className="form-control form-control-lg"
                 id="colFormLabelLg"
-                placeholder="Enter Item Name"
+                placeholder=""
                 name="title"
                 onChange={(e) => this.props.handleChange(e)}
               ></input>
@@ -38,7 +36,7 @@ class AddItem extends Component {
                 type="email"
                 className="form-control"
                 id="colFormLabel"
-                placeholder="Enter Item Description"
+                placeholder=""
                 name="description"
                 x
                 onChange={(e) => this.props.handleChange(e)}
@@ -71,34 +69,21 @@ class AddItem extends Component {
               </select>
             </div>
           </div>
-          {/** ------- Pickup Address -------- */}
-          {/* <div className="form-group row">
-            <label htmlFor="colFormLabelSm" className="col-sm-2 col-form-label col-form-label-md">
-              Pickup address:{' '}
-            </label>
-            <div className="col-sm-10">
-              <input
-                type="email"
-                className="form-control form-control-sm"
-                id="colFormLabelSm"
-                placeholder="Where can others find this item?"
-                name="itemAddress"
-                onChange={(e) => this.props.handleChange(e)}
-              ></input>
-            </div>
-          </div> */}
-
           {/* image input */}
           <div className="input-group mb-3">
             <div className="custom-file">
+              <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">
+                Image Url
+            </label>
               <input
                 type="text"
                 className="form-control form-control-lg"
                 id="colFormLabelLg"
-                placeholder="Image Here"
+                placeholder=""
                 name="image"
                 onChange={(e) => this.props.handleFileChange(e)}
               ></input>
+              {/* Upload File Form */}
               {/* <input
                 type="text"
                 className="custom-file-input"

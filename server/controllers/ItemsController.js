@@ -20,6 +20,7 @@ ItemsController.getAllItems = (req, res, next) => {
 
 ItemsController.postItem = (req, res, next) => {
   const { title, description, image, category, status, user_id } = req.body;
+  console.log('user_id in POST ITEM middleware', user_id);
 
   const query = {
     text: `INSERT INTO public.items(title, description, image, category, status, user_id)

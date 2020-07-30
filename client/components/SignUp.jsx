@@ -100,8 +100,10 @@ class SignUp extends Component {
                   className="form-control"
                   onChange={(e) => this.props.handleChange(e)}
                 >
-                  <option defaultValue="">Choose...</option>
-                  <option>...</option>
+                  <option defaultValue=""></option>
+                  <option>CA</option>
+                  <option>NY</option>
+                  <option>MA</option>
                 </select>
               </div>
               <div className="form-group col-md-2">
