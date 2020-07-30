@@ -21,7 +21,9 @@ class ItemCard extends Component {
 
     return (
       <div>
-        <img className="card-img-top" src={image} />
+        <div className="card-img-container">
+          <img className="card-img-top" src={image} />
+        </div>
         <div className="card-body">
           <h5 className="card-title">{title}</h5>
           <p className="card-text">

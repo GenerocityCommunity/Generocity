@@ -7,8 +7,8 @@ FilterController.filterByCategory = (req, res, next) => {
 
   const query = `SELECT *
                  FROM public.items
-                 WHERE $1=$2`;
-  const queryParams = [column, filterBy];
+                 WHERE category=$1`;
+  const queryParams = [filterBy];
 
   db.query(query, queryParams, (err, data) => {
     if (err) {
