@@ -382,7 +382,7 @@ class App extends Component {
             render={(props) => <Profile {...props} info={this.state} />}
           />
           <Route
-            path="/itemDetails"
+            path="/itemDetails/:item_id"
             render={(props) => <ItemDetails {...props} info={this.state} />}
           />
         </Switch>

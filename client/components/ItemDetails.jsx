@@ -2,31 +2,39 @@ import React, { Component, Fragment } from 'react';
 
 const ItemDetails = (props) => {
 
-  const { latitude, longitude } = props;
+  const { allItems } = props.info;
+  let itemDetails;
+
+  // loop through allItems to find corresponding data for unique card
+  allItems.forEach(object => {
+    if (object._id === Number(props.match.params.item_id)) itemDetails = object;
+  })
+
+  console.log('itemDetails', itemDetails);
+
+  // deconstruct data from itemDetails
+  const { title, category, status, description, item_latitude, item_longitude } = itemDetails;
+
+  // Dynamic URL  (string interpolation) for google maps (static) api link
+  let mapSrc = `https://maps.googleapis.com/maps/api/staticmap?center=${item_latitude}, ${item_longitude}&zoom=13&size=600x300&maptype=roadmap
+&markers=color:red%7C${item_latitude}, ${item_longitude}
+&key=${process.env.GOOGLE_API_KEY}`;
 
   return (
     <section className="userProfile">
-      <h4>Item Details</h4>
+      <h4>{title.toUpperCase()}</h4>
       {/* <img className="card-img-top" > */}
-      <p>
-        Name:
+      <div>
+        <br />
+        <h6>Category: {category}</h6>
+        <h6>Available: {status ? 'No' : 'Yes'}</h6>
+        <h6>Description: {description}</h6>
+        <br />
+        <h6>Location:</h6>
+        <br />
+        {item_latitude && item_longitude ? <img src={mapSrc} alt="" /> : null}
+      </div>
       <br />
-      Category:
-      <br />
-      Status:
-      <br />
-      Description:
-      <br />
-      Location:
-      <br />
-        {latitude && longitude ? <img src={mapSrc} alt="" /> : null}
-      </p>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <h5>Your listed items:</h5>
     </section>
 
   )

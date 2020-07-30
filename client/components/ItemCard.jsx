@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-constructor */
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import '../scss/app.scss';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -11,15 +11,12 @@ class ItemCard extends Component {
   // eslint-disable-next-line lines-between-class-members
   render() {
     const {
+      _id,
       category,
       description,
       image,
       status,
       title,
-      /* build query on backend to populate item location for each item card */
-      // city, 
-      // state,
-      user_id,
     } = this.props.item;
 
     return (
@@ -37,9 +34,9 @@ class ItemCard extends Component {
             Available: {status ? 'No' : 'Yes'}
             <br />
             <br />
-            <NavLink to="/itemDetails" className="btn btn-primary appButton" style={{ width: '100%' }}>
-              Item Details
-            </NavLink>
+            <Link to={`/itemDetails/${_id}`} className="btn btn-primary appButton" style={{ width: '100%' }}>
+              Details
+            </Link>
 
           </p>
         </div>
@@ -47,9 +44,5 @@ class ItemCard extends Component {
     );
   }
 }
-
-{/* <NavLink to="/signup" className="nav-link">
-Sign Up
-</NavLink> */}
 
 export default ItemCard;
