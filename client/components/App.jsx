@@ -146,7 +146,7 @@ class App extends Component {
       .then((res) => res.json())
       .then((data) => {
         if (data.log || data.error) {
-          console.log('there is an error');
+          console.log('error: ', data.log, '\n', data.error);
           // show a message that describes error
         } else {
           console.log(data);
