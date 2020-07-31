@@ -14,10 +14,6 @@ ItemsController.getAllItems = (req, res, next) => {
     // if successful, query will return data.rows
     const { rows } = data;
     res.locals.items = rows;
-<<<<<<< HEAD
-    // console.log('res.locals.items', res.locals.items);
-=======
->>>>>>> 7b95718aefd6bf714585d986ba816182bfb48b5f
     return next();
   });
 };
@@ -28,16 +24,6 @@ ItemsController.postItem = (req, res, next) => {
   let item_longitude;
 
   // query db to add latitude and longitude to each item
-<<<<<<< HEAD
-  const queryForCoords = `
-  SELECT u._id as user_id, a._id as address_id, a.latitude, a.longitude, u."firstName", u.email
-  FROM public.users u
-  JOIN public.address a ON u.address_id = a._id
-  WHERE u._id = ${user_id}
-  `;
-
-  db.query(queryForCoords, (err, data) => {
-=======
   const coordinatesQuery = {
     text: `SELECT u._id as user_id, a._id as address_id, a.latitude, a.longitude, u."firstName", u.email
            FROM public.users u
@@ -47,7 +33,6 @@ ItemsController.postItem = (req, res, next) => {
   };
 
   db.query(coordinatesQuery, (err, data) => {
->>>>>>> 7b95718aefd6bf714585d986ba816182bfb48b5f
     if (err) {
       console.log('ERROR: ', err);
       return next(err);
