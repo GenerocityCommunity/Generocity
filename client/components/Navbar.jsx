@@ -131,7 +131,7 @@ const Navbar = (props) => {
                   className="logout"
                   onClick={props.handleLogoutSubmit}
                 >
-                  LogOut
+                  Log Out
                 </div>
               </NavLink>
             </li>
