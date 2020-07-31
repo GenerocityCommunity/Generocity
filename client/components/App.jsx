@@ -67,6 +67,9 @@ class App extends Component {
 
   /*----------- Tracks changes in input forms and sets state -----------------*/
   handleChange(e) {
+    if (e.target.id === 'inputState') {
+      this.setState({ state: e.target.value });
+    }
     this.setState({ [e.target.name]: e.target.value });
   }
 
@@ -157,38 +160,54 @@ class App extends Component {
     const { email, password } = this.state;
     const body = { email, password };
 
-    fetch('/user/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'Application/JSON',
-      },
-      body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.log || data.error) {
-          console.log('error: ', data.log, '\n', data.error);
-          // show a message that describes error
-        } else {
-          console.log(data);
-          const { isLoggedIn } = data;
-
-          this.setState({
-            isLoggedIn,
-            password: '',
-            email,
-            // ID must be a string to not break <Profile />'s path.resolve
-            user_id: data.user._id.toString(),
-            firstName: data.user.firstName,
-            lastName: data.user.lastName,
-          });
-          this.props.history.push('/');
-        }
+    if (!email && !password) {
+      document.getElementById(
+        'bad-login-message'
+      ).innerHTML = `<span>Please fill out all forms.</span>`;
+    } else if (!email && password) {
+      document.getElementById(
+        'bad-login-message'
+      ).innerHTML = `<span>Please fill out the email section.</span>`;
+    } else if (email && !password) {
+      document.getElementById(
+        'bad-login-message'
+      ).innerHTML = `<span>Please fill out all the password section.</span>`;
+    } else {
+      fetch('/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'Application/JSON',
+        },
+        body: JSON.stringify(body),
       })
-      .catch((err) => {
-        console.log('/LOG-IN Post error: ', err);
-        this.setState({ email: '', password: '' });
-      });
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.log || data.error) {
+            // show a message that describes error
+            document.getElementById(
+              'bad-login-message'
+            ).innerHTML = `<span>${data.log}</span>`;
+          } else {
+            console.log(data);
+            const { isLoggedIn } = data;
+
+            this.setState({
+              isLoggedIn,
+              password: '',
+              email,
+              // ID must be a string to not break <Profile />'s path.resolve
+              user_id: data.user._id.toString(),
+              firstName: data.user.firstName,
+              lastName: data.user.lastName,
+            });
+            this.props.history.push('/');
+          }
+        })
+        .catch((err) => {
+          console.log('/LOG-IN Post error: ', err);
+          this.setState({ email: '', password: '' });
+        });
+    }
   }
 
   /*--- POST request to /LOG-OUT---- */
@@ -213,90 +232,120 @@ class App extends Component {
       zipCode,
     } = this.state;
 
-    // Query Google Maps Geocode API for latitude & longitude
-    // variable that stores url to fetch lat & long from user inputed address
-    let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json`;
+    // ---------------------  A L L the signup field validations --------------------- //
+    let message;
+    if (
+      !email ||
+      !password ||
+      !firstName ||
+      !lastName ||
+      !zipCode ||
+      !street ||
+      !city ||
+      !state
+    ) {
+      // console.log(`email:${email}\npassword:${password}\nfirstName:${firstName}\nlastName:${lastName}\n
+      // zipCode:${zipCode}\nstreet:${street}\ncity:${city}\nstate:${state}\n`);
+      message = 'Please fill out all fields.';
+      // use RegEx to check for <at least one char>@<at least one char>.<at least two chars>, otherwise '@.' works
+    } else if (!email.includes('@') || !email.includes('.')) {
+      message = 'Please enter a valid email.';
+    } else if (isNaN(Number(zipCode))) {
+      message = 'Please enter a valid Zip Code.';
+    } else {
+      // ------------------- End of ALL the signup field validations ------------------- //
 
-    let geocodeLatitude;
-    let geocodeLongitude;
+      // Query Google Maps Geocode API for latitude & longitude
+      // variable that stores url to fetch lat & long from user inputed address
+      let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json`;
 
-    // MUST use arrow function here, or else when we setState in nested async function
-    // 'this' will be undefined
-    const geocode = () => {
-      // let location = '22 Main St Boston MA'
-      let location = `${street} ${city} ${state}}`;
-      axios
-        .get(geocodeURL, {
-          params: {
-            address: location,
-            key: process.env.GOOGLE_API_KEY,
-          },
-        })
-        .then((res) => {
-          console.log('response from Geocode API', res);
-          geocodeLatitude = res.data.results[0].geometry.location.lat;
-          geocodeLongitude = res.data.results[0].geometry.location.lng;
-          console.log('lat & long', geocodeLatitude, geocodeLongitude);
+      let geocodeLatitude;
+      let geocodeLongitude;
 
-          // Request body for POST request to sign up user
-          const body = {
-            email,
-            password,
-            firstName,
-            lastName,
-            zipCode,
-            street,
-            city,
-            state,
-            latitude: geocodeLatitude,
-            longitude: geocodeLongitude,
-          };
-
-          // POST request to backend to add user info to db
-          fetch('/user/signup', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'Application/JSON',
+      // MUST use arrow function here, or else when we setState in nested async function
+      // 'this' will be undefined
+      const geocode = () => {
+        // let location = '22 Main St Boston MA'
+        let location = `${street} ${city} ${state}}`;
+        axios
+          .get(geocodeURL, {
+            params: {
+              address: location,
+              key: process.env.GOOGLE_API_KEY,
             },
-            body: JSON.stringify(body),
           })
-            .then((res) => res.json())
-            // TODO: setState with isLoggedIn, clear pw
-            // return to home page
-            .then((res) => {
-              console.log('res', res);
-              console.log('res.user_id', res.user_id);
-              // set state with new values for user_id and toggle isLoggedIn to true
-              console.log('this', this);
-              this.setState({
-                user_id: res.user_id.toString(),
-                isLoggedIn: true,
-              });
-              console.log(
-                'new user_id after setting state',
-                this.state.user_id
-              );
-              // this.props.history.push('/');
-              redirect();
+          .then((res) => {
+            console.log('response from Geocode API', res);
+            geocodeLatitude = res.data.results[0].geometry.location.lat;
+            geocodeLongitude = res.data.results[0].geometry.location.lng;
+            console.log('lat & long', geocodeLatitude, geocodeLongitude);
+
+            // Request body for POST request to sign up user
+            const body = {
+              email,
+              password,
+              firstName,
+              lastName,
+              zipCode,
+              street,
+              city,
+              state,
+              latitude: geocodeLatitude,
+              longitude: geocodeLongitude,
+            };
+
+            // POST request to backend to add user info to db
+            fetch('/user/signup', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'Application/JSON',
+              },
+              body: JSON.stringify(body),
             })
-            .catch((err) => {
-              console.log('AddItem Post error: ', err);
-            });
-        })
-        .catch((err) => {
-          console.log(
-            'Error from Geocode function in HandleSignUpSubmit in App.jsx',
-            err
-          );
-        });
-    };
+              .then((res) => res.json())
+              // TODO: setState with isLoggedIn, clear pw
+              // return to home page
+              .then((res) => {
+                console.log('res', res);
+                console.log('res.user_id', res.user_id);
+                // set state with new values for user_id and toggle isLoggedIn to true
+                console.log('this', this);
+                this.setState({
+                  user_id: res.user_id.toString(),
+                  isLoggedIn: true,
+                });
+                console.log(
+                  'new user_id after setting state',
+                  this.state.user_id
+                );
+                // this.props.history.push('/');
+                redirect();
+              })
+              .catch((err) => {
+                console.log('AddItem Post error: ', err);
+              });
+          })
+          .catch((err) => {
+            console.log(
+              'Error from Geocode function in HandleSignUpSubmit in App.jsx',
+              err
+            );
+          });
+      };
 
-    // call geocode() to get lat & long of user who signed up
-    geocode();
+      // call geocode() to get lat & long of user who signed up
+      geocode();
 
-    // storing invocation of this.props.history.push('/') so that this.props is accessible
-    // within the nested async POST to '/user/signup'
-    let redirect = () => this.props.history.push('/');
+      // storing invocation of this.props.history.push('/') so that this.props is accessible
+      // within the nested async POST to '/user/signup'
+      let redirect = () => this.props.history.push('/');
+    }
+    // Displays error message if it exists
+    if (message) {
+      document.getElementById(
+        'bad-signup-message'
+      ).innerHTML = `<span>${message}</span>`;
+    }
   }
 
   /*----------------Geolocation-------------------*/
