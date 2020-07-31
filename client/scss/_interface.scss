@@ -26,11 +26,19 @@ h6 {
 .card {
   margin: 10px;
 }
+.cardItem {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: center;
+}
 
 .card-img-container {
   height: 25vw;
 }
 .card-img-top {
+  // height: 20vw;
   max-height: 25vw;
 }
 /* invidivual section within a card */
@@ -62,7 +70,9 @@ h6 {
 .editItemBtn {
   margin-bottom: 20px;
   margin-left: 20px;
-  background-color: #f0f1fa;
+  margin-right: 20px;
+  width: 30%;
+  background-color: $buttonColor;
   color: gray;
   border: none;
   box-shadow: 1px 1px 3px rgba(22, 22, 22, 0.171);
@@ -91,6 +101,9 @@ h6 {
 .navbar-light {
   box-shadow: inset 0px 0px 20px 10px rgba(156, 156, 156, 0.178);
 }
+.navbar-custom {
+  background-color: $primaryColor;
+}
 
 .innerNav {
   display: flex;
@@ -105,7 +118,7 @@ h6 {
   align-items: center;
 }
 .appButton {
-  background-color: aliceblue;
+  background-color: $buttonColor;
   color: gray;
   border: none;
   box-shadow: 1px 1px 3px rgba(22, 22, 22, 0.171);
@@ -161,5 +174,24 @@ select {
 @media (max-width: 1150px) {
   .itemsContainer {
     grid-template-columns: 33fr 33fr 33fr; /*can add a media query for smaller screens/responsivity*/
+  }
+}
+
+@media (max-width: 420px) {
+  .itemsContainer {
+    grid-template-columns: 100fr; /*can add a media query for smaller screens/responsivity*/
+  }
+
+  .card-img-container {
+    height: 65vw;
+  }
+  .card-img-top {
+    max-height: 65vw;
+  }
+  .body {
+    margin: 0;
+  }
+  .card {
+    margin: 0;
   }
 }

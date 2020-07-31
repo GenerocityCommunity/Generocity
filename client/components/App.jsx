@@ -107,9 +107,20 @@ class App extends Component {
     // check if user_id in state has been updated after signing up and logging in
     // if it is not updated, geocoding for each item will not work
     // console.log('this.state.user_id', this.state.user_id);
-    const { title, description, category, image, status, user_id } = this.state;
+    const {
+      allItems,
+      title,
+      description,
+      category,
+      image,
+      status,
+      user_id,
+    } = this.state;
 
+    const length = allItems.length + 1;
+    
     const body = {
+      _id: length,
       title,
       description,
       image,
