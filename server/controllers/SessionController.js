@@ -1,6 +1,8 @@
 const db = require('../models/Models');
 
 const SessionController = {};
+const EXPIRY_IN_MS = 2592000;
+
 /**
  * startSession - create and ave a new Session into the database.
  */
@@ -10,7 +12,7 @@ SessionController.startSession = async (req, res, next) => {
     text: `INSERT INTO public.sessions("cookie", "created_At", "expiration", "user_id")
            VALUES($1, current_timestamp, $2, $3)
            RETURNING *`,
-    values: [res.locals.ssid, 500000, res.locals.userId],
+    values: [res.locals.ssid, EXPIRY_IN_MS, res.locals.userId],
   };
 
   try {

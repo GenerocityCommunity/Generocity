@@ -39,20 +39,15 @@ CookieController.setSSIDCookie = async (req, res, next) => {
     if (userData) {
       // NOTE: Since we filtered by `email` (a UNIQUE column) in our SELECT query, we only expect
       //       1 object in the `rows` array of our `userData` object returned by that query
-      console.log(`userData.rows: ${userData.rows}`);
       const user = userData.rows[0];
-
-      console.log(`user._id: ${user._id}`);
 
       let hashedSessionId;
       bcrypt.hash(String(user._id), 10, (err, hash) => {
         if (err) {
           return next(err);
         }
+
         hashedSessionId = hash;
-
-        console.log(`hashed session ID: ${hashedSessionId}`);
-
         res.cookie('ssid', hashedSessionId, { httpOnly: true, maxAge: EXPIRY_IN_MS });
         res.locals.ssid = hashedSessionId;
         res.locals.userId = user._id;
