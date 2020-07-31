@@ -1,9 +1,10 @@
 const express = require('express');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const http = require('http');
 const itemRouter = require('./routes/itemsRouter.js');
 const userRouter = require('./routes/userRouter.js');
 const filterRouter = require('./routes/filterRouter.js');
-const http = require('http')
 // require dotenv to hide server uri
 require('dotenv').config();
 
@@ -16,6 +17,7 @@ const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 // Handle Parsing of Request Body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Handle Requests for Static Files
 app.use('/', express.static(path.resolve(__dirname, '../')));

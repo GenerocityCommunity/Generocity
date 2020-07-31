@@ -21,10 +21,10 @@ class App extends Component {
       isLoggedIn: false,
       allItems: [], // (each item is an object)
       /* State for Current User */
-      email: 'dave@gmail.com',
+      email: '',
       points: '',
-      firstName: 'Dave',
-      lastName: "O'Sullivan",
+      firstName: '',
+      lastName: '',
       password: '',
       street: '',
       street2: '', // add this to frontend, backend, and db
@@ -40,7 +40,7 @@ class App extends Component {
       category: '',
       image: '',
       status: false,
-      user_id: '2',
+      user_id: '',
       redirect: null,
     };
     this.getAllItems = this.getAllItems.bind(this);
@@ -50,7 +50,7 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
-    // this.checkSession = this.checkSession.bind(this);
+    this.checkSession = this.checkSession.bind(this);
     /* Bind for Geolocation Feature */
     this.getLocation = this.getLocation.bind(this);
     this.getCoordinates = this.getCoordinates.bind(this);
@@ -61,7 +61,7 @@ class App extends Component {
   /*----------- ComponentDidMount calls initial GET for all items -----------------*/
   componentDidMount() {
     this.getAllItems();
-    // this.checkSession(); ---- session auth incomplete
+    this.checkSession();
     this.getLocation();
   }
 
@@ -343,20 +343,25 @@ class App extends Component {
   /*----------------Geocoding (getting lat & long coords from Google API-------------------*/
 
   // ------- Sessions Authentication - called in componentDidMount -------
-  // checkSession() {
-  //   fetch('/api/checksession')
-  //   .then(res => res.json())
-  //   .then(res =>  {
-  //     // if (res.status === 200) {
-  //     console.log("res.email in checkSession", res.email)
-  //     // on successful status, update state email and pw
-  //     this.setState({email: [res.email], isLoggedIn: true})
-
-  //   })
-  //   .catch(err => {
-  //     console.log('/api/checksession GET error:', err);
-  //   })
-  // }
+  checkSession() {
+    fetch('/user/checksession')
+      .then((res) => res.json())
+      .then((res) => {
+        // on successful status, update state email and user_id, and set isLoggedIn to true
+        let isLoggedIn =
+          res.email === undefined || res.userId === undefined ? false : true;
+        this.setState({
+          email: res.email,
+          user_id: res.userId,
+          isLoggedIn,
+          firstName: res.firstName,
+          lastName: res.lastName,
+        });
+      })
+      .catch((err) => {
+        console.log('/user/checksession GET error:', err);
+      });
+  }
 
   /*--- GET Request for All items --- */
   getAllItems() {

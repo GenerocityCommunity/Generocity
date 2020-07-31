@@ -1,6 +1,8 @@
+const bcrypt = require('bcrypt');
 const db = require('../models/Models');
 
 const CookieController = {};
+const EXPIRY_IN_MS = 2592000;
 
 CookieController.setSSIDCookie = async (req, res, next) => {
   const { email } = req.body;
@@ -38,9 +40,19 @@ CookieController.setSSIDCookie = async (req, res, next) => {
       // NOTE: Since we filtered by `email` (a UNIQUE column) in our SELECT query, we only expect
       //       1 object in the `rows` array of our `userData` object returned by that query
       const user = userData.rows[0];
-      res.cookie('ssid', user._id, { httpOnly: true });
-      res.locals.ssid = user._id;
-      return next();
+
+      let hashedSessionId;
+      bcrypt.hash(String(user._id), 10, (err, hash) => {
+        if (err) {
+          return next(err);
+        }
+
+        hashedSessionId = hash;
+        res.cookie('ssid', hashedSessionId, { httpOnly: true, maxAge: EXPIRY_IN_MS });
+        res.locals.ssid = hashedSessionId;
+        res.locals.userId = user._id;
+        return next();
+      });
     }
   } catch (e) {
     return next(e);
