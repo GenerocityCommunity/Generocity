@@ -14,15 +14,13 @@ UserController.getUserItems = (req, res, next) => {
 
   db.query(query, queryParams, (err, data) => {
     if (err) {
-      console.log('ERROR: ', err);
+      console.log('UserController: ERROR ', err);
       return next(err);
     }
     // if successful, query will return list of itmems that user has posted
     const { rows } = data;
     res.locals.items = rows;
-    console.log(
-      'Successfully made GET request for all items that user has posted.'
-    );
+    console.log('UserController: Successfully made GET request for all items that user has posted.');
     return next();
   });
 };
@@ -83,8 +81,6 @@ UserController.createUser = async (req, res, next) => {
     const userId = `SELECT _id, email FROM public.users WHERE email='${email}'`;
 
     const newUserId = await db.query(userId);
-
-    console.log('newUserId', newUserId.rows[0]._id);
 
     // after querying userId, store in res.locals to send back to front end to update user_id in state
     // this is so that every item that user adds will be attached to the user's id who posted the item

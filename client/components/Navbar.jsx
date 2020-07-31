@@ -2,14 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const Navbar = (props) => {
-  console.log('Navbar isLoggedIn ->', props.isLoggedIn);
   /*---Navbar Logged Out ---- */
   if (!props.isLoggedIn) {
     return (
-      <nav
-        className="navbar navbar-expand-md navbar-light"
-        style={{ backgroundColor: '#e4f3fe' }}
-      >
+      <nav className="navbar navbar-expand-md navbar-light navbar-custom ">
         <NavLink to="/" className="nav-brand">
           <a className="navbar-brand" href="#" style={{ letterSpacing: '2px' }}>
             genero
@@ -79,10 +75,7 @@ const Navbar = (props) => {
   /*---Navbar Logged In ---- */
   if (props.isLoggedIn) {
     return (
-      <nav
-        className="navbar navbar-expand-md navbar-light"
-        style={{ backgroundColor: '#e4f3fe' }}
-      >
+      <nav className="navbar navbar-expand-md navbar-light navbar-custom ">
         <NavLink to="/" className="nav-brand">
           <a className="navbar-brand" href="#" style={{ letterSpacing: '2px' }}>
             genero
@@ -138,7 +131,7 @@ const Navbar = (props) => {
                   className="logout"
                   onClick={props.handleLogoutSubmit}
                 >
-                  LogOut
+                  Log Out
                 </div>
               </NavLink>
             </li>
