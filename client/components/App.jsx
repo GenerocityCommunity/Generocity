@@ -196,9 +196,27 @@ class App extends Component {
 
   /*--- POST request to /LOG-OUT---- */
   handleLogoutSubmit() {
-    this.setState({
-      isLoggedIn: false,
-    });
+    // POST request to backend to add user info to db
+    fetch('/user/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'Application/JSON',
+      },
+    })
+      .then((res) => res.json())
+      // TODO: setState with isLoggedIn, clear pw
+      // return to home page
+      .then((res) => {
+        if (res.msg === 'ended session') {
+          console.log(res.msg);
+        }
+        this.setState({
+          isLoggedIn: false,
+        });
+      })
+      .catch((err) => {
+        console.log('App.jsx: Error caught in request to log out!');
+      });
   }
 
   /*----------------POST request To SIGNUP-------------------*/
