@@ -117,11 +117,8 @@ class App extends Component {
       user_id,
     } = this.state;
 
-    // TODO: replace with real logic
-    // Instead of making another request to server
-    // Increment serialized ID by 1
     const length = allItems.length + 1;
-
+    
     const body = {
       _id: length,
       title,
