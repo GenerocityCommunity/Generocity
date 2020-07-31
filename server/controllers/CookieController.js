@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const db = require('../models/Models');
 
 const CookieController = {};
+const EXPIRY_IN_MS = 2592000;
 
 CookieController.setSSIDCookie = async (req, res, next) => {
   const { email } = req.body;
@@ -52,7 +53,7 @@ CookieController.setSSIDCookie = async (req, res, next) => {
 
         console.log(`hashed session ID: ${hashedSessionId}`);
 
-        res.cookie('ssid', hashedSessionId, { httpOnly: true, maxAge: 500000 });
+        res.cookie('ssid', hashedSessionId, { httpOnly: true, maxAge: EXPIRY_IN_MS });
         res.locals.ssid = hashedSessionId;
         res.locals.userId = user._id;
         return next();

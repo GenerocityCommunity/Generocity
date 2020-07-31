@@ -30,6 +30,7 @@ SessionController.isLoggedIn = async (req, res, next) => {
   // query database for cookie ssid
   const { ssid } = req.cookies;
   if (!ssid) {
+    console.log('SessionController: No ssid in cookie given by client request!!!');
     return next();
   }
 
@@ -43,9 +44,8 @@ SessionController.isLoggedIn = async (req, res, next) => {
       values: [ssid],
     };
     const sessionData = await db.query(sessionQuery);
-
     // If we found an existing session
-    if (sessionData.rows) {
+    if (sessionData.rows.length) {
       console.log('SessionController: Found a Sessions row corresponding with the given SSID cookie!');
       try {
         // Return all rows from sessions table and only the matched rows from users
@@ -61,6 +61,9 @@ SessionController.isLoggedIn = async (req, res, next) => {
         const sessionAndUserData = await db.query(sessionUserQuery);
         res.locals.email = sessionAndUserData.rows[0].email;
         res.locals.user_id = sessionAndUserData.rows[0].user_id;
+        res.locals.firstName = sessionAndUserData.rows[0].firstName;
+        res.locals.lastName = sessionAndUserData.rows[0].lastName;
+        res.locals.address_id = sessionAndUserData.rows[0].address_id; // TODO: do we need this?
         return next();
       } catch (err) {
         console.log('SessionController: Error querying for user and session data!');

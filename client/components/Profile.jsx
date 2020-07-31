@@ -42,7 +42,7 @@ class Profile extends Component {
   getUserItems() {
     const url = '/user/';
 
-    const id = this.props.info.user_id;
+    const id = this.props.info.user_id.toString();
 
     fetch(path.resolve(url, id))
       .then((res) => res.json())
@@ -54,45 +54,8 @@ class Profile extends Component {
       });
   }
 
-  /*--- POST request to edit item to server---- */
-  // handleSubmit(e) {
-  //   e.preventDefault();
-  //   const { title, description, category, image, status, _id } = this.state;
-  //   const body = {
-  //     title: title,
-  //     description: description,
-  //     image: image,
-  //     category: category,
-  //     status: status,
-  //     id: _id,
-  //   };
-
-  // console.log('submit EditItem req body:', body);
-  // const itemId = this.state.itemId;
-  // fetch(path.resolve('/items/', itemId), {
-  //   method: 'PATCH',
-  //   headers: {
-  //     'Content-Type': 'Application/JSON',
-  //   },
-  //   body: JSON.stringify(body),
-  // })
-  //   .then((res) => {
-  //     res.json();
-  //     // refresh state values
-  //     // this.setState({ title: '', description: '', category: '', image: '', itemAddress: '' })
-  //     // return to home page
-  //     // this.props.history.push('/')
-  //     console.log('res in AddItem', res);
-  //   })
-  //   .catch((err) => {
-  //     console.log('AddItem Post error: ', err);
-  //     // this.setState({ title: '', description: '', category: '', image: '', itemAddress: '' })
-  //     this.props.history.push('/');
-  //   });
-  //}
-
   deleteItem(e) {
-    const itemId = e.target.id;
+    const itemId = e.target.id.toString();
     const url = `/item/${itemId}`;
     fetch(url, { method: 'DELETE' }).catch((err) =>
       console.log('delete error', err)
