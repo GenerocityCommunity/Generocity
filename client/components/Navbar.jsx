@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const Navbar = (props) => {
-  console.log('Navbar isLoggedIn ->', props.isLoggedIn);
   /*---Navbar Logged Out ---- */
   if (!props.isLoggedIn) {
     return (

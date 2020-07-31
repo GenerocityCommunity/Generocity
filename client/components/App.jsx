@@ -348,11 +348,11 @@ class App extends Component {
   // ------- Sessions Authentication - called in componentDidMount -------
   checkSession() {
     fetch('/user/checksession')
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         // on successful status, update state email and user_id, and set isLoggedIn to true
-        console.log(`email: ${res.email}\nuser_id:${res.userId}`);
-        let isLoggedIn = (res.email === undefined || res.userId === undefined) ? false : true;
+        let isLoggedIn =
+          res.email === undefined || res.userId === undefined ? false : true;
         this.setState({
           email: res.email,
           user_id: res.userId,
@@ -361,9 +361,9 @@ class App extends Component {
           lastName: res.lastName,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('/user/checksession GET error:', err);
-      })
+      });
   }
 
   /*--- GET Request for All items --- */
