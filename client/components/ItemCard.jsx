@@ -4,12 +4,8 @@ import { NavLink, Link } from 'react-router-dom';
 import '../scss/app.scss';
 
 // eslint-disable-next-line react/prefer-stateless-function
-class ItemCard extends Component {
-  constructor(props) {
-    super(props);
-  }
-  // eslint-disable-next-line lines-between-class-members
-  render() {
+const ItemCard = (props)=>{
+  
     const {
       _id,
       category,
@@ -17,7 +13,7 @@ class ItemCard extends Component {
       image,
       status,
       title,
-    } = this.props.item;
+    } = props.item;
 
     return (
       <div>
@@ -45,6 +41,6 @@ class ItemCard extends Component {
       </div>
     );
   }
-}
+
 
 export default ItemCard;
