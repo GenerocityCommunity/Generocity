@@ -25,4 +25,12 @@ describe('Item Card', () => {
     
     expect(wrapper.containsMatchingElement(Link)).toEqual(true);
   });
+  
+  it('has immediate children', ()=> {
+    const wrapper = shallow(<ItemCard {...props}/>);
+
+    expect(wrapper.find('.card-body')).toHaveLength(1);
+    expect(wrapper.find('div.card-img-container')).toHaveLength(1);
+    expect(wrapper.children()).toHaveLength(2);
+  })
 });
