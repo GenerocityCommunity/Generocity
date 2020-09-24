@@ -7,7 +7,7 @@
     "start": "cross-env NODE_ENV=production nodemon server/server.js",
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open & nodemon server/server.js",
-    "test": "jest --verbose",
+    "test": "jest --verbose --coverage",
     "dew": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open --hot --inline --progress --colors --watch --content-base ./\" \"nodemon ./server/server.js\""
   },
   "jest": {
@@ -49,6 +49,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "cross-env": "^7.0.2",
     "css-loader": "^3.6.0",
+    "enzyme-adapter-react-16": "^1.15.5",
     "jest": "^26.4.2",
     "nodemon": "^2.0.4",
     "postcss-loader": "^3.0.0",
