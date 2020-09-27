@@ -1,4 +1,4 @@
-Generocity Community
+## Generocity Community
 
 A Landscape for shared giving.
 
