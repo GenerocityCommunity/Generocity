@@ -101,10 +101,10 @@ class SignUp extends Component {
                   onChange={(e) => this.props.handleChange(e)}
                 >
                   <option defaultValue=""></option>
-                  <option>CA</option>
-                  <option>NY</option>
-                  <option>MA</option>
-                  <option>NJ</option>
+                  <option value="CA">CA</option>
+                  <option value="NY">NY</option>
+                  <option value="MA">MA</option>
+                  <option value="NJ">NJ</option>
                 </select>
               </div>
               <div className="form-group col-md-2">
@@ -137,6 +137,10 @@ class SignUp extends Component {
             >
               Sign Up
             </button>
+            <div
+              id="bad-signup-message"
+              style={{ textAlign: 'center', marginTop: '30px', color: 'red' }}
+            ></div>
           </form>
         </div>
         <div className="row" style={{ height: '20vh' }}></div>

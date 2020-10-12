@@ -102,7 +102,7 @@ class Profile extends Component {
                 type="button"
                 className="btn btn-dark editItemBtn"
                 id={item._id}
-                onClick={(e) => this.deleteItem(e)}
+                onClick={(e) =>  this.deleteItem(e)}
               >
                 Del
               </button>
@@ -176,7 +176,7 @@ class Profile extends Component {
             </div >
           </div >
         </div > */}
-
+{/* ___________________ ADD ITEM MODAL _________________*/}
         <section className="innerNav">
           <section className="userProfileTop">
             <h4>Welcome to Your Profile, {firstName}!</h4>

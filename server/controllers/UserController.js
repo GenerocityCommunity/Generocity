@@ -78,13 +78,13 @@ UserController.createUser = async (req, res, next) => {
     await db.query(createUserQuery);
 
     // query database to receive new serialized user_id that we just created
-    const userId = `SELECT _id, email FROM public.users WHERE email='${email}'`
+    const userId = `SELECT _id, email FROM public.users WHERE email='${email}'`;
 
-    const newUserId = await db.query(userId)
+    const newUserId = await db.query(userId);
 
     // after querying userId, store in res.locals to send back to front end to update user_id in state
     // this is so that every item that user adds will be attached to the user's id who posted the item
-    res.locals.newUserId = newUserId.rows[0]._id
+    res.locals.newUserId = newUserId.rows[0]._id;
 
     return next();
   } catch (e) {
@@ -116,12 +116,12 @@ UserController.verifyUser = async (req, res, next) => {
         return next();
       }
       if (result === false) {
-        return next({ log: 'Incorrect password' });
+        return next({ log: 'Incorrect password. Please try again.' });
       }
     });
   } catch (e) {
     // Changed 'invalid username' to 'invalid email'
-    return next({ log: 'Error returned, invalid email', error: e });
+    return next({ log: 'Could not find a user with that email.', error: e });
   }
 };
 

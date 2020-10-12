@@ -35,11 +35,11 @@ ItemsController.postItem = (req, res, next) => {
   db.query(coordinatesQuery, (err, data) => {
     if (err) {
       console.log('ERROR: ', err);
-      return next(err);;
+      return next(err);
     }
     // log latitude and longitude and insert into create item below
-    item_latitude = data.rows[0].latitude
-    item_longitude = data.rows[0].longitude
+    item_latitude = data.rows[0].latitude;
+    item_longitude = data.rows[0].longitude;
 
     // after retrieving item longitude and latitude from joining address and users table
     // create new item in db with item latitude and item longitude values
@@ -47,7 +47,16 @@ ItemsController.postItem = (req, res, next) => {
       text: `INSERT INTO public.items(title, description, image, category, status, user_id, item_latitude, item_longitude)
                VALUES($1, $2, $3, $4, $5, $6, $7, $8)
                RETURNING *`,
-      values: [title, description, image, category, status, user_id, item_latitude, item_longitude],
+      values: [
+        title,
+        description,
+        image,
+        category,
+        status,
+        user_id,
+        item_latitude,
+        item_longitude,
+      ],
     };
 
     db.query(query, (err, data) => {
@@ -58,8 +67,7 @@ ItemsController.postItem = (req, res, next) => {
       console.log(`${title} successfully posted to database.`);
       return next();
     });
-  })
-
+  });
 };
 
 ItemsController.editUserItem = (req, res, next) => {
