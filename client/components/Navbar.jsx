@@ -26,12 +26,6 @@ const Navbar = (props) => {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              <NavLink to="/profile" className="nav-link">
-                Profile
-              </NavLink>
-            </li>
-
             <div id="filterBox">
               <select
                 className="form-control"
