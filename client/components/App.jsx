@@ -121,7 +121,7 @@ class App extends Component {
     } = this.state;
 
     const length = allItems.length + 1;
-    
+
     const body = {
       _id: length,
       title,
@@ -212,9 +212,25 @@ class App extends Component {
 
   /*--- POST request to /LOG-OUT---- */
   handleLogoutSubmit() {
-    this.setState({
-      isLoggedIn: false,
-    });
+    // POST request to backend to add user info to db
+    fetch('/user/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'Application/JSON',
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.msg === 'ended session') {
+          console.log(res.msg);
+        }
+        this.setState({
+          isLoggedIn: false,
+        });
+      })
+      .catch((err) => {
+        console.log('App.jsx: Error caught in request to log out!');
+      });
   }
 
   /*----------------POST request To SIGNUP-------------------*/
