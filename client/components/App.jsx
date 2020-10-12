@@ -121,7 +121,7 @@ class App extends Component {
     } = this.state;
 
     const length = allItems.length + 1;
-    
+
     const body = {
       _id: length,
       title,
@@ -220,8 +220,6 @@ class App extends Component {
       },
     })
       .then((res) => res.json())
-      // TODO: setState with isLoggedIn, clear pw
-      // return to home page
       .then((res) => {
         if (res.msg === 'ended session') {
           console.log(res.msg);

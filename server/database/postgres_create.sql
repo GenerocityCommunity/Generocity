@@ -26,7 +26,7 @@ CREATE TABLE public.address (
 
 CREATE TABLE public.sessions (
   "_id" serial NOT NULL,
-  "cookie" varchar NOT NULL,
+  "ssid" varchar NOT NULL,
   "created_At" DATE NOT NULL,
   "user_id" int NOT NULL,
   "expiration" int NOT NULL,
