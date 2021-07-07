@@ -7,8 +7,13 @@
     "start": "cross-env NODE_ENV=production nodemon server/server.js",
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open & nodemon server/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose --coverage",
     "dew": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open --hot --inline --progress --colors --watch --content-base ./\" \"nodemon ./server/server.js\""
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less|scss)$": "identity-obj-proxy"
+    }
   },
   "repository": {
     "type": "git",
@@ -23,7 +28,9 @@
     "concurrently": "^5.2.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
+    "enzyme": "^3.11.0",
     "express": "^4.17.1",
+    "identity-obj-proxy": "^3.0.0",
     "jquery": "^3.5.1",
     "pg": "^8.3.0",
     "popper.js": "^1.16.1",
@@ -42,9 +49,12 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "cross-env": "^7.0.2",
     "css-loader": "^3.6.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "jest": "^26.4.2",
     "nodemon": "^2.0.4",
     "postcss-loader": "^3.0.0",
     "precss": "^4.0.0",
+    "react-test-renderer": "^16.13.1",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.2",
     "style-loader": "^1.2.1",
